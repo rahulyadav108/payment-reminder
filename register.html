@@ -1,20 +1,25 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Register - PaymentLoo</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <h2>Register</h2>
-    <input type="email" id="register-email" placeholder="Email" required>
-    <input type="password" id="register-password" placeholder="Password" required>
+  <div class="auth-container">
+    <h2>Create Account</h2>
+    <input type="text" id="registerName" placeholder="Full Name" required />
+    <input type="email" id="registerEmail" placeholder="Email" required />
+    <input type="password" id="registerPassword" placeholder="Password" required />
     <button onclick="register()">Register</button>
-    <p>Already have an account? <a href="index.html">Login</a></p>
+    <p>or</p>
+    <button onclick="loginWithGoogle()" class="google-btn">Continue with Google</button>
+    <p>Already have an account? <a href="login.html">Login</a></p>
   </div>
+
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js" type="module"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js" type="module"></script>
   <script type="module" src="app.js"></script>
-  <script type="module" src="script.js"></script>
 </body>
 </html>
