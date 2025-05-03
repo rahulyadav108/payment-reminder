@@ -3,57 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Dashboard – PaymentLoo</title>
+  <title>PaymentLoo Dashboard</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="dashboard-container">
-    <header>
-      <h1>PaymentLoo Dashboard</h1>
-      <div class="icons">
-        <span id="profileIcon">👤</span>
-        <span id="notificationIcon">🔔</span>
-      </div>
-    </header>
+  <header class="dashboard-header">
+    <h2>Welcome, <span id="username">User</span></h2>
+    <div class="dashboard-icons">
+      <button id="profileIcon">👤</button>
+      <button id="notificationIcon">🔔</button>
+    </div>
+  </header>
 
-    <section class="stats">
-      <h3>Overview</h3>
-      <p>Total Debtors: <span id="totalDebtors">0</span></p>
-      <p>Messages Sent: <span id="messagesSent">0</span></p>
+  <main class="dashboard-container">
+
+    <!-- Plans Section -->
+    <section class="plans">
+      <h3>Plans</h3>
+      <ul>
+        <li>Free Plan: 5 Debtors & 5 Messages</li>
+        <li>Premium Plan: ₹499/month – Unlimited Debtors & Messages</li>
+        <li>Custom Messages: ₹49 (10 msg), ₹99 (25 msg)</li>
+      </ul>
     </section>
 
-    <section class="plan-section">
-      <h3>Current Plan</h3>
-      <p id="planInfo">Free Plan – Max 5 Debtors & 5 Messages / month</p>
-    </section>
-
-    <section class="add-debtor">
-      <h3>Add Debtor</h3>
-      <form id="debtorForm">
-        <input type="text" id="debtorName" placeholder="Debtor Name" required />
-        <input type="tel" id="debtorNumber" placeholder="Phone Number" required />
-        <input type="date" id="dueDate" required />
-        <select id="messageTemplate" required>
-          <option value="">-- Select Message --</option>
-          <option value="default1">Please clear your dues.</option>
-          <option value="default2">Your payment is overdue. Kindly pay soon.</option>
-          <option value="custom">Use Custom Message (Premium)</option>
-        </select>
-        <textarea id="customMessage" placeholder="Custom Message (if selected above)" style="display: none;"></textarea>
-        <button type="submit" class="btn">Add Debtor</button>
-      </form>
-    </section>
-
-    <section class="history">
+    <!-- Home Overview -->
+    <section class="overview">
       <h3>Message History</h3>
       <ul id="messageHistory"></ul>
     </section>
-  </div>
 
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
-  <script src="app.js"></script>
-  <script src="script.js"></script>
+    <!-- Debtor Add Section -->
+    <section class="add-debtor">
+      <h3>Add Debtor</h3>
+      <input type="text" id="debtorName" placeholder="Debtor Name" required/>
+      <input type="tel" id="debtorNumber" placeholder="Phone Number" required/>
+      <input type="date" id="dueDate" placeholder="Due Date" required/>
+      <textarea id="reminderMessage" placeholder="Enter Reminder Message..." required></textarea>
+      <button id="addDebtorBtn">Add Debtor</button>
+    </section>
+
+  </main>
+
+  <script type="module" src="app.js"></script>
+  <script type="module" src="script.js"></script>
 </body>
 </html>
