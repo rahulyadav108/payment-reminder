@@ -1,24 +1,58 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="style.css" />
   <title>Register - PaymentLoo</title>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-  <script src="app.js"></script>
-  <script src="script.js" defer></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyD4rUpC-Y7m1hGwKydLjTN4hnH4PUejF-0",
+      authDomain: "paymentloo.firebaseapp.com",
+      projectId: "paymentloo",
+      storageBucket: "paymentloo.firebasestorage.app",
+      messagingSenderId: "678382986235",
+      appId: "1:678382986235:web:14d671959c28ec800a215e",
+      measurementId: "G-33XCH79XP2"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
 </head>
 <body>
   <h2>Register</h2>
   <form id="registerForm">
     <input type="text" id="fullName" placeholder="Full Name" required><br>
-    <input type="text" id="phoneNumber" placeholder="Phone Number" required><br>
+    <input type="text" id="phone" placeholder="Phone Number" required><br>
     <input type="email" id="registerEmail" placeholder="Email" required><br>
     <input type="password" id="registerPassword" placeholder="Password" required><br>
     <input type="password" id="confirmPassword" placeholder="Confirm Password" required><br>
     <button type="submit">Register</button>
   </form>
 
-  <button id="googleBtn">Continue with Google</button>
+  <button id="googleRegister">Continue with Google</button>
+
+  <script>
+    document.getElementById("registerForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const email = document.getElementById("registerEmail").value;
+      const password = document.getElementById("registerPassword").value;
+      const confirm = document.getElementById("confirmPassword").value;
+
+      if (password !== confirm) {
+        alert("Passwords do not match.");
+        return;
+      }
+
+      firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then(() => window.location.href = "dashboard.html")
+        .catch(error => alert("Registration Error: " + error.message));
+    });
+
+    document.getElementById("googleRegister").addEventListener("click", function() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      firebase.auth().signInWithPopup(provider)
+        .then(() => window.location.href = "dashboard.html")
+        .catch(error => alert("Google Sign-Up Error: " + error.message));
+    });
+  </script>
 </body>
 </html>
