@@ -1,12 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <link rel="stylesheet" href="style.css" />
   <title>Login - PaymentLoo</title>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-  <script src="app.js"></script>
-  <script src="script.js" defer></script>
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyD4rUpC-Y7m1hGwKydLjTN4hnH4PUejF-0",
+      authDomain: "paymentloo.firebaseapp.com",
+      projectId: "paymentloo",
+      storageBucket: "paymentloo.firebasestorage.app",
+      messagingSenderId: "678382986235",
+      appId: "1:678382986235:web:14d671959c28ec800a215e",
+      measurementId: "G-33XCH79XP2"
+    };
+    firebase.initializeApp(firebaseConfig);
+  </script>
 </head>
 <body>
   <h2>Login</h2>
@@ -16,6 +25,25 @@
     <button type="submit">Login</button>
   </form>
 
-  <button id="googleBtn">Continue with Google</button>
+  <button id="googleLogin">Continue with Google</button>
+
+  <script>
+    document.getElementById("loginForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const email = document.getElementById("loginEmail").value;
+      const password = document.getElementById("loginPassword").value;
+
+      firebase.auth().signInWithEmailAndPassword(email, password)
+        .then(() => window.location.href = "dashboard.html")
+        .catch(error => alert("Login Error: " + error.message));
+    });
+
+    document.getElementById("googleLogin").addEventListener("click", function() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      firebase.auth().signInWithPopup(provider)
+        .then(() => window.location.href = "dashboard.html")
+        .catch(error => alert("Google Sign-In Error: " + error.message));
+    });
+  </script>
 </body>
 </html>
