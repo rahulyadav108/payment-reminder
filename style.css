@@ -1,302 +1,63 @@
-body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(to right, #4facfe, #00f2fe);
-  margin: 0;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100vh;
-}
-.container {
-  background-color: #ffffff;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  max-width: 400px;
-  text-align: center;
-}
-input, button {
-  width: 100%;
-  padding: 10px;
-  margin-top: 10px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
-}
-button {
-  background-color: #4facfe;
-  color: white;
-  border: none;
-  cursor: pointer;
-}
-button:hover {
-  background-color: #00c6ff;
-}
-.google-btn {
-  background: white;
-  color: #444;
-  border: 1px solid #ccc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 10px;
-  width: 100%;              /* Makes it match input width */
-  max-width: 100%;          /* Prevents overflow */
-  border-radius: 6px;
-  margin-top: 15px;
-  font-size: 14px;
-  cursor: pointer;
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(to right, #00b4db, #0083b0);
-  color: #fff;
-}
-
-a {
-  color: #fff;
-  text-decoration: underline;
-}
-
-.form-container,
-.dashboard-container {
-  max-width: 500px;
-  margin: 50px auto;
-  background: #ffffff10;
-  padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(10px);
-}
-
-h1, h2, h3 {
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-input,
-select,
-textarea,
-button {
-  width: 100%;
-  padding: 10px;
-  margin: 10px 0;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  box-sizing: border-box;
-}
-
-input, select, textarea {
-  background: #f9f9f9;
-  color: #333;
-}
-
-button.btn {
-  background-color: #00b894;
-  color: white;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-button.btn:hover {
-  background-color: #019875;
-}
-
-button.google {
-  background-color: #fff;
-  color: #444;
-  border: 1px solid #ddd;
-}
-
-.icons {
-  display: flex;
-  justify-content: flex-end;
-  gap: 15px;
-  font-size: 24px;
-  margin-bottom: 20px;
-}
-
-.stats,
-.plan-section,
-.add-debtor,
-.history {
-  margin-top: 30px;
-  background: #ffffff15;
-  padding: 20px;
-  border-radius: 10px;
-}
-
-#messageHistory {
-  list-style: none;
-  padding-left: 0;
-}
-
-#messageHistory li {
-  background: #ffffff20;
-  margin: 8px 0;
-  padding: 10px;
-  border-radius: 6px;
-}
 /* General Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", sans-serif;
 }
 
-/* Body */
 body {
-  background: linear-gradient(to right, #74ebd5, #ACB6E5);
+  background: #f5f7fa;
   color: #333;
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
 }
 
-/* Header */
-.dashboard-header {
-  background-color: #0d47a1;
-  color: white;
-  padding: 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.dashboard-header h2 {
-  font-size: 24px;
-}
-
-.dashboard-icons button {
-  background: none;
-  border: none;
-  font-size: 20px;
-  color: white;
-  margin-left: 10px;
-  cursor: pointer;
-}
-
-/* Dashboard Container */
-.dashboard-container {
-  padding: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 25px;
-}
-
-/* Sections */
-section {
-  background: white;
-  border-radius: 10px;
-  padding: 20px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-
-/* Plan List */
-.plans ul {
-  list-style: disc;
-  padding-left: 20px;
-}
-
-.overview ul {
-  list-style: none;
-  padding: 0;
-}
-
-.overview ul li {
-  padding: 8px 0;
-  border-bottom: 1px solid #eee;
-}
-
-/* Add Debtor Form */
-.add-debtor input,
-.add-debtor textarea {
-  width: 100%;
-  padding: 10px;
-  margin-bottom: 12px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.add-debtor button {
-  background-color: #2196f3;
-  color: white;
-  border: none;
-  padding: 12px;
-  width: 100%;
-  font-size: 16px;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background 0.3s;
-}
-
-.add-debtor button:hover {
-  background-color: #1976d2;
-}
-
-/* Auth Pages */
+/* ========== AUTH PAGES (Login / Register) ========== */
 .auth-container {
   max-width: 400px;
-  margin: auto;
-  margin-top: 80px;
-  background: white;
-  padding: 30px;
+  margin: 60px auto;
+  background: #ffffff;
+  padding: 40px;
   border-radius: 10px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
 .auth-container h2 {
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
+  color: #2d3436;
 }
 
 .auth-container input {
   width: 100%;
   padding: 12px;
-  margin-bottom: 12px;
-  border-radius: 5px;
-  border: 1px solid #bbb;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
 }
 
 .auth-container button {
   width: 100%;
   padding: 12px;
-  border: none;
-  background-color: #0d47a1;
+  background: #0984e3;
   color: white;
   font-size: 16px;
-  border-radius: 5px;
-  margin-bottom: 10px;
+  border: none;
+  border-radius: 6px;
   cursor: pointer;
-  transition: 0.3s;
+  transition: background 0.3s ease;
 }
 
 .auth-container button:hover {
-  background-color: #08306b;
+  background: #74b9ff;
 }
 
-.google-login {
-  background-color: #db4437 !important;
-}
-
-.google-login:hover {
-  background-color: #c23321 !important;
-}
-
-/* Responsive */
-@media (max-width: 600px) {
-  .dashboard-container {
-    padding: 10px;
-  }
-
-  .auth-container {
-    margin-top: 40px;
-  }
-}
+.auth-container .google-btn {
+  background: white;
+  color: #444;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+ 
