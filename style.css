@@ -34,105 +34,66 @@ button:hover {
   background-color: #00c6ff;
 }
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f9fafc;
-  color: #333;
   margin: 0;
   padding: 0;
-}
-
-nav {
-  background-color: #3f51b5;
-  color: white;
-  padding: 15px;
+  font-family: 'Segoe UI', sans-serif;
+  background: #f0f2f5;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
+  height: 100vh;
 }
 
-nav h1 {
-  margin: 0;
-}
-
-nav .icons button {
-  background: none;
-  border: none;
-  color: white;
-  font-size: 20px;
-  margin-left: 10px;
-  cursor: pointer;
-}
-
-section {
-  margin: 20px;
-  padding: 20px;
+.container {
   background: white;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-
-form input, form select, form textarea {
-  display: block;
-  margin: 10px 0;
-  padding: 10px;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
   width: 100%;
-}
-
-form button {
-  padding: 10px 20px;
-  background-color: #3f51b5;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-}
-.auth-container {
-  width: 90%;
   max-width: 400px;
-  margin: 100px auto;
-  background: white;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
   text-align: center;
 }
 
-.auth-container input {
+h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+input {
   width: 100%;
   padding: 12px;
   margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
 }
 
-.auth-container button {
+button, .google-btn {
   width: 100%;
   padding: 12px;
-  margin-top: 10px;
-  background-color: #3f51b5;
+  background-color: #4CAF50;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 6px;
+  margin-top: 10px;
+  font-size: 16px;
   cursor: pointer;
 }
 
-.auth-container .google-btn {
-  background-color: #de5246;
+.google-btn {
+  background: white;
+  color: #444;
+  border: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
-.container.center {
-  text-align: center;
-  margin-top: 100px;
+
+.google-btn img {
+  width: 20px;
+  height: 20px;
 }
-.btn {
-  display: inline-block;
-  margin: 10px;
-  padding: 10px 20px;
-  text-decoration: none;
-  background-color: #00b894;
-  color: white;
-  border-radius: 5px;
-}
-.btn:hover {
-  background-color: #019875;
-}
+
 body {
   margin: 0;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
