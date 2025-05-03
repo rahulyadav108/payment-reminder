@@ -1,5 +1,4 @@
-// ✅ Your Firebase config
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyD4rUpC-Y7m1hGwKydLjTN4hnH4PUejF-0",
   authDomain: "paymentloo.firebaseapp.com",
@@ -11,55 +10,41 @@ const firebaseConfig = {
   measurementId: "G-33XCH79XP2"
 };
 
-// ✅ Initialize Firebase
+// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const provider = new firebase.auth.GoogleAuthProvider();
 
-// ✅ Login with Email/Password
-const loginForm = document.getElementById('login-form');
-if (loginForm) {
-  loginForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const email = loginForm['login-email'].value;
-    const password = loginForm['login-password'].value;
+// Email/password registration
+document.getElementById("register-form")?.addEventListener("submit", function (e) {
+  e.preventDefault();
+  const email = document.getElementById("register-email").value;
+  const password = document.getElementById("register-password").value;
 
-    auth.signInWithEmailAndPassword(email, password)
-      .then(() => {
-        window.location.href = "dashboard.html";
-      })
-      .catch(err => alert("Login failed: " + err.message));
-  });
-}
+  firebase.auth().createUserWithEmailAndPassword(email, password)
+    .then(() => {
+      window.location.href = "dashboard.html";
+    })
+    .catch(error => alert(error.message));
+});
 
-// ✅ Register with Email/Password
-const registerForm = document.getElementById('register-form');
-if (registerForm) {
-  registerForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const name = registerForm['register-name'].value;
-    const phone = registerForm['register-phone'].value;
-    const email = registerForm['register-email'].value;
-    const password = registerForm['register-password'].value;
+// Email/password login
+document.getElementById("login-form")?.addEventListener("submit", function (e) {
+  e.preventDefault();
+  const email = document.getElementById("login-email").value;
+  const password = document.getElementById("login-password").value;
 
-    auth.createUserWithEmailAndPassword(email, password)
-      .then((cred) => {
-        // You can save name and phone in Firebase Database if needed
-        window.location.href = "dashboard.html";
-      })
-      .catch(err => alert("Registration failed: " + err.message));
-  });
-}
+  firebase.auth().signInWithEmailAndPassword(email, password)
+    .then(() => {
+      window.location.href = "dashboard.html";
+    })
+    .catch(error => alert(error.message));
+});
 
-// ✅ Google Sign-In (Login or Register)
-const googleBtns = document.querySelectorAll('.google-btn');
-googleBtns.forEach((btn) => {
-  btn.addEventListener('click', (e) => {
-    e.preventDefault();
-    auth.signInWithPopup(provider)
-      .then(() => {
-        window.location.href = "dashboard.html";
-      })
-      .catch(err => alert("Google sign-in failed: " + err.message));
-  });
+// Google sign-in
+document.getElementById("google-btn")?.addEventListener("click", function () {
+  const provider = new firebase.auth.GoogleAuthProvider();
+  firebase.auth().signInWithPopup(provider)
+    .then(() => {
+      window.location.href = "dashboard.html";
+    })
+    .catch(error => alert(error.message));
 });
