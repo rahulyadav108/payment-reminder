@@ -2,67 +2,58 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>PaymentLoo Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard – PaymentLoo</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <nav>
-    <h1>PaymentLoo</h1>
-    <div class="icons">
-      <button onclick="showNotifications()">🔔</button>
-      <button onclick="showProfile()">👤</button>
-    </div>
-  </nav>
+  <div class="dashboard-container">
+    <header>
+      <h1>PaymentLoo Dashboard</h1>
+      <div class="icons">
+        <span id="profileIcon">👤</span>
+        <span id="notificationIcon">🔔</span>
+      </div>
+    </header>
 
-  <section id="home">
-    <h2>Dashboard Overview</h2>
-    <p>Total Debtors Added: <span id="totalDebtors">0</span></p>
-    <p>Messages Sent: <span id="messageHistory">0</span></p>
-  </section>
+    <section class="stats">
+      <h3>Overview</h3>
+      <p>Total Debtors: <span id="totalDebtors">0</span></p>
+      <p>Messages Sent: <span id="messagesSent">0</span></p>
+    </section>
 
-  <section id="add-debtor">
-    <h2>Add Debtor</h2>
-    <form id="debtorForm">
-      <input type="text" id="debtorName" placeholder="Debtor Name" required />
-      <input type="tel" id="debtorNumber" placeholder="Phone Number" required />
-      <input type="date" id="dueDate" required />
-      <select id="messageType">
-        <option value="default">Default Reminder</option>
-        <option value="custom">Custom Message</option>
-      </select>
-      <textarea id="customMessage" placeholder="Custom Message" style="display: none;"></textarea>
-      <button type="submit">Add Debtor</button>
-    </form>
-  </section>
+    <section class="plan-section">
+      <h3>Current Plan</h3>
+      <p id="planInfo">Free Plan – Max 5 Debtors & 5 Messages / month</p>
+    </section>
 
-  <section id="plans">
-    <h2>Plans</h2>
-    <ul>
-      <li>Free Plan: Max 5 Debtors, 5 Messages/Month</li>
-      <li>Pro Plan (₹499): Unlimited Debtors & Messages</li>
-      <li>Custom Message Plan:
-        <ul>
-          <li>₹49: 10 Custom Messages/Month</li>
-          <li>₹99: 25 Custom Messages/Month</li>
-        </ul>
-      </li>
-    </ul>
-  </section>
+    <section class="add-debtor">
+      <h3>Add Debtor</h3>
+      <form id="debtorForm">
+        <input type="text" id="debtorName" placeholder="Debtor Name" required />
+        <input type="tel" id="debtorNumber" placeholder="Phone Number" required />
+        <input type="date" id="dueDate" required />
+        <select id="messageTemplate" required>
+          <option value="">-- Select Message --</option>
+          <option value="default1">Please clear your dues.</option>
+          <option value="default2">Your payment is overdue. Kindly pay soon.</option>
+          <option value="custom">Use Custom Message (Premium)</option>
+        </select>
+        <textarea id="customMessage" placeholder="Custom Message (if selected above)" style="display: none;"></textarea>
+        <button type="submit" class="btn">Add Debtor</button>
+      </form>
+    </section>
 
-  <section id="notifications" style="display: none;">
-    <h2>Notifications</h2>
-    <ul id="notificationList"></ul>
-  </section>
+    <section class="history">
+      <h3>Message History</h3>
+      <ul id="messageHistory"></ul>
+    </section>
+  </div>
 
-  <section id="profile" style="display: none;">
-    <h2>User Profile</h2>
-    <p>Name: <span id="userName">Loading...</span></p>
-    <p>Email: <span id="userEmail">Loading...</span></p>
-    <button onclick="logout()">Logout</button>
-  </section>
-
-  <script src="app.js" type="module"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js"></script>
+  <script src="app.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
