@@ -53,3 +53,34 @@ window.logout = function () {
     window.location.href = "index.html";
   });
 };
+document.getElementById("messageType").addEventListener("change", function () {
+  const customMsgBox = document.getElementById("customMessage");
+  customMsgBox.style.display = this.value === "custom" ? "block" : "none";
+});
+
+document.getElementById("debtorForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+  const name = document.getElementById("debtorName").value;
+  const number = document.getElementById("debtorNumber").value;
+  const dueDate = document.getElementById("dueDate").value;
+  const messageType = document.getElementById("messageType").value;
+  const customMessage = document.getElementById("customMessage").value;
+
+  // Replace this with Firebase Database logic
+  alert(`Debtor added:
+    Name: ${name}
+    Number: ${number}
+    Due: ${dueDate}
+    Message: ${messageType === 'custom' ? customMessage : 'Default Reminder'}
+  `);
+});
+
+window.showNotifications = function () {
+  document.getElementById("notifications").style.display = "block";
+  document.getElementById("profile").style.display = "none";
+};
+
+window.showProfile = function () {
+  document.getElementById("notifications").style.display = "none";
+  document.getElementById("profile").style.display = "block";
+};
