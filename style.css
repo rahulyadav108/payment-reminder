@@ -33,52 +33,6 @@ button {
 button:hover {
   background-color: #00c6ff;
 }
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: #f0f2f5;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.container {
-  background: white;
-  padding: 40px;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-  width: 100%;
-  max-width: 400px;
-  text-align: center;
-}
-
-h2 {
-  margin-bottom: 20px;
-  color: #333;
-}
-
-input {
-  width: 100%;
-  padding: 12px;
-  margin: 10px 0;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-}
-
-button, .google-btn {
-  width: 100%;
-  padding: 12px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  border-radius: 6px;
-  margin-top: 10px;
-  font-size: 16px;
-  cursor: pointer;
-}
-
 .google-btn {
   background: white;
   color: #444;
@@ -87,11 +41,14 @@ button, .google-btn {
   align-items: center;
   justify-content: center;
   gap: 10px;
-}
-
-.google-btn img {
-  width: 20px;
-  height: 20px;
+  padding: 10px;
+  width: 100%;              /* Makes it match input width */
+  max-width: 100%;          /* Prevents overflow */
+  border-radius: 6px;
+  margin-top: 15px;
+  font-size: 14px;
+  cursor: pointer;
+  box-sizing: border-box;
 }
 
 body {
