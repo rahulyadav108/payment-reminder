@@ -5,11 +5,66 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>PaymentLoo</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f7f9fc;
+      color: #333;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .center-box {
+      text-align: center;
+      padding: 40px;
+      background-color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 400px;
+    }
+    h1 {
+      font-size: 2.5rem;
+      color: #4CAF50;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 1.1rem;
+      color: #777;
+      margin-bottom: 30px;
+    }
+    .button {
+      display: inline-block;
+      padding: 12px 30px;
+      margin: 10px;
+      background-color: #4CAF50;
+      color: #fff;
+      font-size: 1.1rem;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: background-color 0.3s ease;
+    }
+    .button:hover {
+      background-color: #45a049;
+    }
+    .hero-img {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
 <body>
   <div class="center-box">
+    <img src="https://via.placeholder.com/350x200?text=PaymentLoo" alt="PaymentLoo Hero Image" class="hero-img"/>
     <h1>Welcome to PaymentLoo</h1>
-    <p>Smart Payment Reminder Web App</p>
+    <p>Your smart solution for managing payment reminders.</p>
     <a href="login.html" class="button">Login</a>
     <a href="register.html" class="button">Register</a>
   </div>
