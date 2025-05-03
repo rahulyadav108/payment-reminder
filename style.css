@@ -134,3 +134,95 @@ form button {
 .btn:hover {
   background-color: #019875;
 }
+body {
+  margin: 0;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: linear-gradient(to right, #00b4db, #0083b0);
+  color: #fff;
+}
+
+a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.form-container,
+.dashboard-container {
+  max-width: 500px;
+  margin: 50px auto;
+  background: #ffffff10;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(10px);
+}
+
+h1, h2, h3 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+input,
+select,
+textarea,
+button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+input, select, textarea {
+  background: #f9f9f9;
+  color: #333;
+}
+
+button.btn {
+  background-color: #00b894;
+  color: white;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+button.btn:hover {
+  background-color: #019875;
+}
+
+button.google {
+  background-color: #fff;
+  color: #444;
+  border: 1px solid #ddd;
+}
+
+.icons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 15px;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.stats,
+.plan-section,
+.add-debtor,
+.history {
+  margin-top: 30px;
+  background: #ffffff15;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+#messageHistory {
+  list-style: none;
+  padding-left: 0;
+}
+
+#messageHistory li {
+  background: #ffffff20;
+  margin: 8px 0;
+  padding: 10px;
+  border-radius: 6px;
+}
