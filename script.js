@@ -2,32 +2,32 @@
 
 // Register User
 function registerUser() {
-  const fullName = document.getElementById('register-fullname').value;
-  const phoneNumber = document.getElementById('register-phone').value;
-  const email = document.getElementById('register-email').value;
-  const password = document.getElementById('register-password').value;
-  const confirmPassword = document.getElementById('register-confirm-password').value;
+  const name = document.getElementById("register-name").value;
+  const phone = document.getElementById("register-phone").value;
+  const email = document.getElementById("register-email").value;
+  const password = document.getElementById("register-password").value;
+  const confirmPassword = document.getElementById("register-confirm-password").value;
 
-  if (!fullName || !phoneNumber || !email || !password || !confirmPassword) {
-    alert("Please fill all fields");
+  if (!name || !phone || !email || !password || !confirmPassword) {
+    alert("Please fill all fields.");
     return;
   }
 
   if (password !== confirmPassword) {
-    alert("Passwords do not match");
+    alert("Passwords do not match.");
     return;
   }
 
   firebase.auth().createUserWithEmailAndPassword(email, password)
     .then((userCredential) => {
-      // Optionally store user info
-      alert("Registered successfully");
+      alert("Registered successfully!");
       window.location.href = "dashboard.html";
     })
     .catch((error) => {
       alert(error.message);
     });
 }
+
 
 // Login User
 function loginUser() {
