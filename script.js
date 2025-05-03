@@ -28,15 +28,18 @@ registerBtn.addEventListener('click', (e) => {
     });
 });
 
+// Google Sign-In
+const googleBtn = document.getElementById("googleBtn");
 
-googleBtn.addEventListener('click', () => {
-  const provider = new firebase.auth.GoogleAuthProvider();
+googleBtn.addEventListener("click", () => {
+  var provider = new firebase.auth.GoogleAuthProvider();
   firebase.auth().signInWithPopup(provider)
-    .then(() => {
-      window.location.href = "dashboard.html";  // Redirect
+    .then((result) => {
+      // Redirect to dashboard after successful Google login
+      window.location.href = "dashboard.html";
     })
     .catch((error) => {
-      alert(error.message);
+      alert("Google Sign-In failed: " + error.message);
     });
 });
 
