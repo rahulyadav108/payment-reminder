@@ -1,6 +1,6 @@
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-import { getAuth } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+// Firebase v9+ (Modular)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyD4rUpC-Y7m1hGwKydLjTN4hnH4PUejF-0",
@@ -15,4 +15,18 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-window.auth = auth;
+
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    document.getElementById("userName").innerText = user.displayName || "No Name";
+    document.getElementById("userEmail").innerText = user.email;
+  } else {
+    window.location.href = "index.html";
+  }
+});
+
+window.logout = function () {
+  signOut(auth).then(() => {
+    window.location.href = "index.html";
+  });
+};
