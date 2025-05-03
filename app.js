@@ -1,5 +1,5 @@
-// Import Firebase modules (for modular Firebase SDK v9+)
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+// app.js
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
 import {
   getAuth,
   signInWithEmailAndPassword,
@@ -7,16 +7,8 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   onAuthStateChanged
-} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
-import {
-  getDatabase,
-  ref,
-  set,
-  push,
-  onValue
-} from "https://www.gstatic.com/firebasejs/9.6.1/firebase-database.js";
+} from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
 
-// Your Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyD4rUpC-Y7m1hGwKydLjTN4hnH4PUejF-0",
   authDomain: "paymentloo.firebaseapp.com",
@@ -28,11 +20,20 @@ const firebaseConfig = {
   measurementId: "G-33XCH79XP2"
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
-const db = getDatabase(app);
 
-// Export these to use in script.js
-export { auth, db, provider, signInWithEmailAndPassword, createUserWithEmailAndPassword, signInWithPopup, ref, set, push, onValue, onAuthStateChanged };
+// Google Login Button
+const googleBtns = document.querySelectorAll(".google-login");
+googleBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        window.location.href = "dashboard.html";
+      })
+      .catch((error) => {
+        alert("Google Sign-In Error: " + error.message);
+      });
+  });
+});
