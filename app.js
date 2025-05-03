@@ -1,6 +1,7 @@
 // ✅ Your Firebase config
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyD4rUpC-Y7y1hGwKydLjTN4hnH4PUejF-0",
+  apiKey: "AIzaSyD4rUpC-Y7m1hGwKydLjTN4hnH4PUejF-0",
   authDomain: "paymentloo.firebaseapp.com",
   databaseURL: "https://paymentloo-default-rtdb.firebaseio.com",
   projectId: "paymentloo",
