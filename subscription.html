@@ -1,99 +1,121 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyD4rUpC-Y7m1hGwKydLjTN4hnH4PUejF-0",
-    authDomain: "paymentloo.firebaseapp.com",
-    databaseURL: "https://paymentloo-default-rtdb.firebaseio.com",
-    projectId: "paymentloo",
-    storageBucket: "paymentloo.firebasestorage.app",
-    messagingSenderId: "678382986235",
-    appId: "1:678382986235:web:14d671959c28ec800a215e",
-    measurementId: "G-33XCH79XP2"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
-  <meta charset="UTF-8">
-  <title>Subscription - Hisab Kitab</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hisab Kitab - Subscription</title>
   <link rel="stylesheet" href="style.css" />
+  <style>
+    .subscription-container {
+      max-width: 600px;
+      margin: auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .plan {
+      border: 1px solid #ccc;
+      margin: 15px 0;
+      padding: 15px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .plan:hover {
+      background: #f0f0f0;
+    }
+    .plan h3 {
+      margin: 0;
+    }
+    .back-button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 15px;
+      background-color: #007bff;
+      color: #fff;
+      border-radius: 5px;
+      text-decoration: none;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <h2>Subscription Plans</h2>
+  <div class="subscription-container">
+    <h2>Select Your Subscription Plan</h2>
 
-    <div class="current-plan" id="currentPlan">
-      <strong>Current Plan:</strong> <span id="activePlan">Free</span>
+    <div class="plan" onclick="subscribe('Free', 0)">
+      <h3>Free Plan</h3>
+      <p>5 Customers + 5 Messages / Month</p>
+      <strong>₹0 / month</strong>
     </div>
 
-    <hr style="margin: 20px 0;">
-
-    <div class="plan-list">
-      <div class="plan-card">
-        <h3>Free Plan</h3>
-        <p>✔ Add unlimited customers<br>
-        ✔ Send 1 message per customer<br>
-        ❌ Custom messages</p>
-        <button class="subscribe-btn" onclick="activatePlan('Free')">Activate Free</button>
-      </div>
-
-      <div class="plan-card">
-        <h3>Pro Plan - ₹499/month</h3>
-        <p>✔ Add unlimited customers<br>
-        ✔ Unlimited messages<br>
-        ✔ Custom messages enabled</p>
-        <button class="subscribe-btn" onclick="activatePlan('Pro')">Subscribe</button>
-      </div>
-
-      <div class="plan-card">
-        <h3>Custom Message Plan - ₹99/month</h3>
-        <p>✔ 25 custom messages/month<br>
-        ✔ Works with any customer</p>
-        <button class="subscribe-btn" onclick="activatePlan('Custom')">Subscribe</button>
-      </div>
+    <div class="plan" onclick="subscribe('Custom 10', 49)">
+      <h3>Custom Message Plan</h3>
+      <p>10 Custom Messages</p>
+      <strong>₹49 / month</strong>
     </div>
 
-    <button class="back-btn" onclick="window.location.href='dashboard.html'">⬅ Back to Dashboard</button>
+    <div class="plan" onclick="subscribe('Custom 25', 99)">
+      <h3>Custom Message Plan</h3>
+      <p>25 Custom Messages</p>
+      <strong>₹99 / month</strong>
+    </div>
+
+    <div class="plan" onclick="subscribe('Unlimited', 499)">
+      <h3>Pro Plan</h3>
+      <p>Unlimited Customers & Messages</p>
+      <strong>₹499 / month</strong>
+    </div>
+
+    <a href="dashboard.html" class="back-button">← Back to Dashboard</a>
   </div>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
   <script>
-  auth.onAuthStateChanged(user => {
-    if (user) {
-      const uid = user.uid;
-      const userDocRef = db.collection("users").doc(uid);
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
+    };
 
-      userDocRef.get().then(doc => {
-        if (doc.exists) {
-          const currentPlan = doc.data().subscription || "Free";
-          document.getElementById("activePlan").innerText = currentPlan;
-        } else {
-          userDocRef.set({ subscription: "Free" });
-          document.getElementById("activePlan").innerText = "Free";
-        }
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
+
+    // Subscription Handler
+    function subscribe(planName, price) {
+      const user = auth.currentUser;
+      if (!user) {
+        alert("Please login first.");
+        return;
+      }
+
+      db.collection("subscriptions").doc(user.uid).set({
+        plan: planName,
+        price: price,
+        subscribedAt: firebase.firestore.FieldValue.serverTimestamp()
+      }).then(() => {
+        alert(`Subscribed to ${planName} successfully!`);
+        window.location.href = "dashboard.html";
+      }).catch((error) => {
+        alert("Error subscribing: " + error.message);
       });
-
-      window.activatePlan = function (planName) {
-        userDocRef.update({ subscription: planName }).then(() => {
-          alert(`You have successfully activated the "${planName}" plan.`);
-          document.getElementById("activePlan").innerText = planName;
-        });
-      };
-    } else {
-      alert("Please login first.");
-      window.location.href = "login.html";
     }
-  });
-</script>
 
+    // Check if user is logged in
+    auth.onAuthStateChanged((user) => {
+      if (!user) {
+        window.location.href = "login.html";
+      }
+    });
+  </script>
 </body>
 </html>
