@@ -26,6 +26,16 @@
     </form>
     <button onclick="window.location.href='dashboard.html'" class="back-btn">← Back to Dashboard</button>
   </div>
+  <div>
+  <label for="customMessage">Custom Message</label>
+  <textarea id="customMessage" placeholder="Write your message..."></textarea>
+</div>
+
+<!-- This shows if plan is Free -->
+<div id="upgradeNotice" style="display:none; color: red; margin-top: 10px;">
+  You need a Pro or Custom Plan to send custom messages.
+</div>
+
 
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
