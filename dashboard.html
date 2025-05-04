@@ -3,53 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hisab Kitab - Dashboard</title>
+  <title>Hisab Kitab Dashboard</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://kit.fontawesome.com/a2e0e6ad59.js" crossorigin="anonymous"></script>
 </head>
 <body>
-
-  <header class="header">
-    <h1>Hisab Kitab Dashboard</h1>
-  </header>
+  <nav class="navbar">
+    <h1>Hisab Kitab</h1>
+    <div class="nav-icons">
+      <a href="profile.html" title="Profile"><img src="icons/user.png" class="icon" /></a>
+      <a href="notifications.html" title="Notifications"><img src="icons/bell.png" class="icon" /></a>
+    </div>
+  </nav>
 
   <main class="dashboard-container">
-
-    <section class="summary-cards">
-      <div class="card">
-        <h3>Total Customers</h3>
-        <p id="totalCustomers">14</p> <!-- Dummy -->
-      </div>
-      <div class="card">
-        <h3>Messages Sent</h3>
-        <p id="messagesSent">8</p> <!-- Dummy -->
+    <section class="summary">
+      <h2>Dashboard Overview</h2>
+      <div class="cards">
+        <div class="card">
+          <h3>Total Customers</h3>
+          <p id="totalCustomers">0</p>
+        </div>
+        <div class="card">
+          <h3>Messages Sent</h3>
+          <p id="messagesSent">0</p>
+        </div>
       </div>
     </section>
 
-    <section class="icon-navigation">
-      <div class="icon-item" onclick="location.href='profile.html'">
-        <i class="fas fa-user-circle"></i>
-        <span>Profile</span>
-      </div>
-      <div class="icon-item" onclick="location.href='notifications.html'">
-        <i class="fas fa-bell"></i>
-        <span>Notifications</span>
-      </div>
-      <div class="icon-item" onclick="location.href='debtors.html'">
-        <i class="fas fa-user-plus"></i>
+    <section class="nav-grid">
+      <a href="debtors.html" class="nav-link">
+        <img src="icons/debtor.png" />
         <span>Add Debtor</span>
-      </div>
-      <div class="icon-item" onclick="location.href='customers.html'">
-        <i class="fas fa-clipboard-list"></i>
-        <span>Vendor Hisab</span>
-      </div>
-      <div class="icon-item" onclick="location.href='plan.html'">
-        <i class="fas fa-crown"></i>
-        <span>Plans</span>
-      </div>
+      </a>
+      <a href="customers.html" class="nav-link">
+        <img src="icons/customers.png" />
+        <span>Customer/Vendor Hisab</span>
+      </a>
+      <a href="plan.html" class="nav-link">
+        <img src="icons/plan.png" />
+        <span>Subscription Plan</span>
+      </a>
     </section>
-
   </main>
 
+  <script>
+    // Example dummy values; later can be replaced with Firebase data
+    document.getElementById("totalCustomers").textContent = "12";
+    document.getElementById("messagesSent").textContent = "8";
+  </script>
 </body>
 </html>
