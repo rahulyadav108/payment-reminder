@@ -1,55 +1,145 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Hisab Kitab Dashboard</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background: #f4f6f9;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #1976d2;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+    .dashboard {
+      padding: 20px;
+    }
+    .card {
+      background: white;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .card h2 {
+      margin-top: 0;
+    }
+    .metrics {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .metric {
+      flex: 1;
+      min-width: 150px;
+      background: #e3f2fd;
+      padding: 15px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .metric h3 {
+      margin: 0;
+      font-size: 24px;
+    }
+    ul {
+      padding: 0;
+      list-style: none;
+    }
+    ul li {
+      background: #fafafa;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+    .nav-icons {
+      display: flex;
+      gap: 15px;
+    }
+    .nav-icons a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
-  <nav class="navbar">
+  <header>
     <h1>Hisab Kitab</h1>
     <div class="nav-icons">
-      <a href="profile.html" title="Profile"><img src="icons/user.png" class="icon" /></a>
-      <a href="notifications.html" title="Notifications"><img src="icons/bell.png" class="icon" /></a>
+      <a href="profile.html">Profile</a>
+      <a href="notifications.html">Notifications</a>
+      <a href="add-debtor.html">Add Debtor</a>
+      <a href="vendor-hisab.html">Vendor Hisab</a>
     </div>
-  </nav>
+  </header>
 
-  <main class="dashboard-container">
-    <section class="summary">
-      <h2>Dashboard Overview</h2>
-      <div class="cards">
-        <div class="card">
-          <h3>Total Customers</h3>
-          <p id="totalCustomers">0</p>
-        </div>
-        <div class="card">
-          <h3>Messages Sent</h3>
-          <p id="messagesSent">0</p>
-        </div>
+  <div class="dashboard">
+    <div class="metrics">
+      <div class="metric">
+        <p>Total Customers</p>
+        <h3 id="totalCustomers">0</h3>
       </div>
-    </section>
+      <div class="metric">
+        <p>Messages Sent</p>
+        <h3 id="totalMessages">0</h3>
+      </div>
+    </div>
 
-    <section class="nav-grid">
-      <a href="debtors.html" class="nav-link">
-        <img src="icons/debtor.png" />
-        <span>Add Debtor</span>
-      </a>
-      <a href="customers.html" class="nav-link">
-        <img src="icons/customers.png" />
-        <span>Customer/Vendor Hisab</span>
-      </a>
-      <a href="plan.html" class="nav-link">
-        <img src="icons/plan.png" />
-        <span>Subscription Plan</span>
-      </a>
-    </section>
-  </main>
+    <div class="card">
+      <h2>Latest Messages</h2>
+      <ul id="messageList"></ul>
+    </div>
+  </div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
   <script>
-    // Example dummy values; later can be replaced with Firebase data
-    document.getElementById("totalCustomers").textContent = "12";
-    document.getElementById("messagesSent").textContent = "8";
+    const firebaseConfig = {
+      apiKey: "AIzaSyD4rUpC-Y7m1hGwKydLjTN4hnH4PUejF-0",
+      authDomain: "paymentloo.firebaseapp.com",
+      databaseURL: "https://paymentloo-default-rtdb.firebaseio.com",
+      projectId: "paymentloo",
+      storageBucket: "paymentloo.appspot.com",
+      messagingSenderId: "678382986235",
+      appId: "1:678382986235:web:14d671959c28ec800a215e",
+      measurementId: "G-33XCH79XP2"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    const totalCustomersEl = document.getElementById('totalCustomers');
+    const totalMessagesEl = document.getElementById('totalMessages');
+    const messageListEl = document.getElementById('messageList');
+
+    db.collection('customers').onSnapshot(snapshot => {
+      totalCustomersEl.textContent = snapshot.size;
+    });
+
+    db.collection('messages').orderBy('timestamp', 'desc').limit(5).onSnapshot(snapshot => {
+      totalMessagesEl.textContent = snapshot.size;
+      messageListEl.innerHTML = '';
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const li = document.createElement('li');
+        li.textContent = `${data.name} - "${data.message}"`;
+        messageListEl.appendChild(li);
+      });
+    });
   </script>
 </body>
 </html>
