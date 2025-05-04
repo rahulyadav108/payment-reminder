@@ -3,90 +3,89 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hisab Kitab - Dashboard</title>
+  <title>Hisab Kitab Dashboard</title>
   <link rel="stylesheet" href="style.css" />
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
 <body>
-
-  <!-- Header -->
-  <div class="dashboard-header">
-    <h1>Hisab Kitab</h1>
-    <div class="header-icons">
-      <span class="icon" title="Notifications"><i class="fas fa-bell"></i></span>
-      <span class="icon" title="Profile"><i class="fas fa-user-circle"></i></span>
-    </div>
-  </div>
-
-  <div class="dashboard-container">
-
-    <!-- Subscription Plan Section -->
-    <section class="plan-info">
-      <h2>Your Current Plan</h2>
-      <p><strong>Free Plan:</strong> 1 free message per customer/vendor. To send more, please upgrade.</p>
-      <button onclick="alert('Redirecting to plan upgrade...')">Upgrade to Premium</button>
-    </section>
-
-    <!-- Customer/Vendor Section -->
-    <section class="add-debtor-section">
-      <h2>Add Customer / Vendor</h2>
-      <form id="customerVendorForm">
-        <input type="text" placeholder="Customer/Vendor Name" required />
-        <input type="tel" placeholder="Phone Number" required />
-        <input type="number" placeholder="Total Purchase Amount" required />
-        <input type="number" placeholder="Total Due Amount" required />
-        <button type="submit">Add Customer/Vendor</button>
-        <p class="notice">First message is free. To send more, purchase a plan. SMS/WhatsApp API integration coming soon.</p>
-      </form>
-    </section>
-
-    <!-- Debtors Add Section -->
-    <section class="add-debtor-section">
-      <h2>Add Debtor</h2>
-      <form id="debtorForm">
-        <input type="text" placeholder="Debtor Name" required />
-        <input type="tel" placeholder="Phone Number" required />
-        <input type="date" placeholder="Due Date" required />
-        <select required>
-          <option value="">Select Message</option>
-          <option value="default">Default Payment Reminder</option>
-          <option value="late">Late Fee Notice</option>
-        </select>
-        <div id="customMessageField" style="display:none;">
-          <input type="text" placeholder="Enter Custom Message" />
+  <div class="dashboard">
+    <header class="dashboard-header">
+      <h1>Hisab Kitab</h1>
+      <div class="header-right">
+        <div class="notification">
+          <i class="fas fa-bell"></i>
+          <span class="notif-count">2</span>
         </div>
-        <button type="submit">Add Debtor</button>
-        <p class="notice">Custom message available only with custom plan.</p>
-      </form>
-    </section>
+        <div class="profile">
+          <i class="fas fa-user-circle"></i>
+          <span>User Name</span>
+        </div>
+      </div>
+    </header>
 
-    <!-- Message History -->
-    <section class="message-history">
-      <h2>Message History</h2>
-      <ul id="messageList">
-        <li>Message to Rajesh - ₹500 due - Sent</li>
-        <li>Message to Anita - ₹300 due - Sent</li>
-      </ul>
-    </section>
+    <main class="dashboard-main">
+      <section class="home-overview">
+        <h2>Dashboard Overview</h2>
+        <div class="cards">
+          <div class="card">Total Customers: <strong>15</strong></div>
+          <div class="card">Total Messages Sent: <strong>30</strong></div>
+          <div class="card">Total Outstanding Amount: <strong>₹7,500</strong></div>
+        </div>
+      </section>
 
+      <section class="subscription-section">
+        <h2>Subscription Plan</h2>
+        <p>Current Plan: <strong>Free</strong></p>
+        <button class="btn">Upgrade to ₹499/Month</button>
+
+        <div class="custom-plans">
+          <h3>Custom Message Plans:</h3>
+          <ul>
+            <li>₹49/month – 10 custom messages</li>
+            <li>₹99/month – 25 custom messages</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="customer-vendor-section">
+        <h2>Customer/Vendor Hisab</h2>
+        <form class="form">
+          <input type="text" placeholder="Customer/Vendor Name" required />
+          <input type="tel" placeholder="Phone Number" required />
+          <input type="number" placeholder="Total Purchase Amount" required />
+          <input type="number" placeholder="Total Due Amount" required />
+          <button class="btn">Send Message</button>
+          <small>* First message free, plan needed after that</small>
+        </form>
+      </section>
+
+      <section class="debtors-section">
+        <h2>Add Debtor</h2>
+        <form class="form">
+          <input type="text" placeholder="Debtor Name" required />
+          <input type="tel" placeholder="Phone Number" required />
+          <input type="date" placeholder="Due Date" required />
+          <select>
+            <option>Select Message</option>
+            <option>Payment Reminder</option>
+            <option>Thank You Note</option>
+          </select>
+          <div class="custom-msg">
+            <label>Custom Message (for active plan):</label>
+            <textarea placeholder="Enter your message..."></textarea>
+          </div>
+          <button class="btn">Add Debtor</button>
+        </form>
+      </section>
+
+      <section class="notifications-area">
+        <h2>Notifications</h2>
+        <ul class="notification-list">
+          <li><strong>Admin:</strong> New plan feature launched!</li>
+          <li><strong>Admin:</strong> Maintenance on Sunday 2–4 PM.</li>
+        </ul>
+      </section>
+    </main>
   </div>
-
-  <!-- JavaScript to show custom message field -->
-  <script>
-    const messageDropdown = document.querySelector('#debtorForm select');
-    const customMessageField = document.getElementById('customMessageField');
-
-    // Simulated plan status
-    const customPlanActive = true;
-
-    messageDropdown.addEventListener('change', function () {
-      if (this.value === 'custom' && customPlanActive) {
-        customMessageField.style.display = 'block';
-      } else {
-        customMessageField.style.display = 'none';
-      }
-    });
-  </script>
-
 </body>
 </html>
