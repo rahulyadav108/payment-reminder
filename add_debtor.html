@@ -113,5 +113,23 @@
       });
     });
   </script>
+  <script>
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      const userRef = db.collection("users").doc(user.uid);
+      userRef.get().then(doc => {
+        const plan = doc.data().subscription || "Free";
+
+        if (plan === "Free") {
+          document.getElementById("customMessage").style.display = "none";
+          document.getElementById("upgradeNotice").style.display = "block";
+        } else {
+          document.getElementById("customMessage").style.display = "block";
+        }
+      });
+    }
+  });
+</script>
+
 </body>
 </html>
