@@ -3,16 +3,57 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Profile</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Profile | Hisab Kitab</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <h2>My Profile</h2>
-  <p><strong>Name:</strong> John Doe</p>
-  <p><strong>Email:</strong> johndoe@example.com</p>
-  <p><strong>Phone:</strong> +91 9876543210</p>
-  <p><strong>Plan:</strong> Basic</p>
-  <br>
-  <a href="dashboard.html" class="back-link">← Back to Dashboard</a>
+  <div class="container">
+    <h2>User Profile</h2>
+    <div class="profile-box">
+      <p><strong>Name:</strong> <span id="profileName">Loading...</span></p>
+      <p><strong>Email:</strong> <span id="profileEmail">Loading...</span></p>
+      <p><strong>Phone:</strong> <span id="profilePhone">Loading...</span></p>
+      <p><strong>Subscription:</strong> <span id="profileSubscription">Loading...</span></p>
+    </div>
+    <button onclick="window.location.href='dashboard.html'" class="back-btn">← Back to Dashboard</button>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyD4rUpC-Y7m1hGwKydLjTN4hnH4PUejF-0",
+      authDomain: "paymentloo.firebaseapp.com",
+      databaseURL: "https://paymentloo-default-rtdb.firebaseio.com",
+      projectId: "paymentloo",
+      storageBucket: "paymentloo.appspot.com",
+      messagingSenderId: "678382986235",
+      appId: "1:678382986235:web:14d671959c28ec800a215e"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.database();
+
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        alert("Please login first.");
+        window.location.href = "login.html";
+        return;
+      }
+
+      const uid = user.uid;
+
+      db.ref(`users/${uid}`).once('value').then(snapshot => {
+        const data = snapshot.val();
+        document.getElementById("profileName").textContent = data.name || "N/A";
+        document.getElementById("profileEmail").textContent = user.email || "N/A";
+        document.getElementById("profilePhone").textContent = data.phone || "N/A";
+        document.getElementById("profileSubscription").textContent = data.subscription ? "Active" : "Free Plan";
+      });
+    });
+  </script>
 </body>
 </html>
