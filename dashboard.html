@@ -5,89 +5,88 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Hisab Kitab - Dashboard</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  <header class="dashboard-header">
-    <h1>📘 Hisab Kitab</h1>
+
+  <!-- Header -->
+  <div class="dashboard-header">
+    <h1>Hisab Kitab</h1>
     <div class="header-icons">
-      <span class="icon">👤</span>
-      <span class="icon">🔔</span>
+      <span class="icon" title="Notifications"><i class="fas fa-bell"></i></span>
+      <span class="icon" title="Profile"><i class="fas fa-user-circle"></i></span>
     </div>
-  </header>
+  </div>
 
-  <main class="dashboard-container">
-    <section class="summary">
-      <h2>📊 Summary</h2>
-      <p>Total Customers/Vendors Added: <span id="totalUsers">0</span></p>
-      <p>Total Messages Sent: <span id="totalMessages">0</span></p>
+  <div class="dashboard-container">
+
+    <!-- Subscription Plan Section -->
+    <section class="plan-info">
+      <h2>Your Current Plan</h2>
+      <p><strong>Free Plan:</strong> 1 free message per customer/vendor. To send more, please upgrade.</p>
+      <button onclick="alert('Redirecting to plan upgrade...')">Upgrade to Premium</button>
     </section>
 
+    <!-- Customer/Vendor Section -->
     <section class="add-debtor-section">
-      <h2>➕ Add Customer / Vendor</h2>
-      <form id="debtorForm">
-        <input type="text" id="debtorName" placeholder="Customer/Vendor Name" required />
-        <input type="tel" id="debtorPhone" placeholder="Phone Number" required />
-        <input type="number" id="purchaseAmount" placeholder="Total Purchase Amount" required />
-        <input type="number" id="dueAmount" placeholder="Total Due Amount" required />
-        <button type="submit">Add</button>
+      <h2>Add Customer / Vendor</h2>
+      <form id="customerVendorForm">
+        <input type="text" placeholder="Customer/Vendor Name" required />
+        <input type="tel" placeholder="Phone Number" required />
+        <input type="number" placeholder="Total Purchase Amount" required />
+        <input type="number" placeholder="Total Due Amount" required />
+        <button type="submit">Add Customer/Vendor</button>
+        <p class="notice">First message is free. To send more, purchase a plan. SMS/WhatsApp API integration coming soon.</p>
       </form>
-      <p class="notice">🔔 First message to each customer is free. Please purchase a plan to continue messaging after that.</p>
     </section>
 
+    <!-- Debtors Add Section -->
+    <section class="add-debtor-section">
+      <h2>Add Debtor</h2>
+      <form id="debtorForm">
+        <input type="text" placeholder="Debtor Name" required />
+        <input type="tel" placeholder="Phone Number" required />
+        <input type="date" placeholder="Due Date" required />
+        <select required>
+          <option value="">Select Message</option>
+          <option value="default">Default Payment Reminder</option>
+          <option value="late">Late Fee Notice</option>
+        </select>
+        <div id="customMessageField" style="display:none;">
+          <input type="text" placeholder="Enter Custom Message" />
+        </div>
+        <button type="submit">Add Debtor</button>
+        <p class="notice">Custom message available only with custom plan.</p>
+      </form>
+    </section>
+
+    <!-- Message History -->
     <section class="message-history">
-      <h2>📨 Message History</h2>
+      <h2>Message History</h2>
       <ul id="messageList">
-        <li>No messages yet.</li>
+        <li>Message to Rajesh - ₹500 due - Sent</li>
+        <li>Message to Anita - ₹300 due - Sent</li>
       </ul>
     </section>
 
-    <section class="plan-info">
-      <h2>💼 Plan Details</h2>
-      <p>Free Plan: 1 message per customer</p>
-      <p>Upgrade for unlimited messaging.</p>
-    </section>
-  </main>
+  </div>
 
+  <!-- JavaScript to show custom message field -->
   <script>
-    let totalUsers = 0;
-    let totalMessages = 0;
-    const usersSet = new Set(); // To track if a user already got a free message
+    const messageDropdown = document.querySelector('#debtorForm select');
+    const customMessageField = document.getElementById('customMessageField');
 
-    const form = document.getElementById("debtorForm");
-    const userCount = document.getElementById("totalUsers");
-    const messageCount = document.getElementById("totalMessages");
-    const messageList = document.getElementById("messageList");
+    // Simulated plan status
+    const customPlanActive = true;
 
-    form.addEventListener("submit", function (e) {
-      e.preventDefault();
-
-      const name = document.getElementById("debtorName").value;
-      const phone = document.getElementById("debtorPhone").value;
-      const total = document.getElementById("purchaseAmount").value;
-      const due = document.getElementById("dueAmount").value;
-
-      totalUsers++;
-      userCount.textContent = totalUsers;
-
-      let messageText = `Customer ${name} (Ph: ${phone}) purchased ₹${total}, due ₹${due}.`;
-
-      // Only send message if not already sent
-      if (!usersSet.has(phone)) {
-        usersSet.add(phone);
-        totalMessages++;
-        messageCount.textContent = totalMessages;
-
-        const li = document.createElement("li");
-        li.textContent = `Message sent to ${name} (${phone}): ${messageText}`;
-        messageList.appendChild(li);
+    messageDropdown.addEventListener('change', function () {
+      if (this.value === 'custom' && customPlanActive) {
+        customMessageField.style.display = 'block';
       } else {
-        const li = document.createElement("li");
-        li.textContent = `Message already sent once to ${name} (${phone}). Upgrade plan to send more.`;
-        messageList.appendChild(li);
+        customMessageField.style.display = 'none';
       }
-
-      form.reset();
     });
   </script>
+
 </body>
 </html>
