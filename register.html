@@ -17,7 +17,7 @@
       <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
       <button type="submit">Register</button>
     </form>
-    <button id="google-login-btn" class="google-btn">
+    <button id="googleRegister()" class="google-btn">
       <img src="https://img.icons8.com/color/16/000000/google-logo.png" alt="Google Icon" />
       Continue with Google
     </button>
@@ -30,15 +30,17 @@
   <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
 
   <script>
-    // Your Firebase config
-    const firebaseConfig = {
-  apiKey: "AIzaSyDKyFfFUGGJ1KoV9vClqNCO0Y1FnZmsqv0",
-      authDomain: "payment-reminder-d1c3c.firebaseapp.com",
-      projectId: "payment-reminder-d1c3c",
-      storageBucket: "payment-reminder-d1c3c.appspot.com",
-      messagingSenderId: "739428264324",
-      appId: "1:739428264324:web:f1180e74ff0a8c69d3083b"
-    };
+   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyD4rUpC-Y7m1hGwKydLjTN4hnH4PUejF-0",
+  authDomain: "paymentloo.firebaseapp.com",
+  databaseURL: "https://paymentloo-default-rtdb.firebaseio.com",
+  projectId: "paymentloo",
+  storageBucket: "paymentloo.firebasestorage.app",
+  messagingSenderId: "678382986235",
+  appId: "1:678382986235:web:14d671959c28ec800a215e",
+  measurementId: "G-33XCH79XP2"
+};
 
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
