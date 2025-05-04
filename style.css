@@ -340,4 +340,68 @@ button:hover {
 .subscribe-btn:hover {
   background-color: #218838;
 }
+/* General Page Styling */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f4f6f9;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 600px;
+  margin: 80px auto;
+  padding: 30px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.08);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+/* Profile Info Styling */
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.profile-info div {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  color: #444;
+}
+
+.profile-info div label {
+  font-weight: bold;
+  color: #333;
+}
+
+.profile-info div span {
+  color: #555;
+}
+
+/* Back Button Styling */
+.back-btn {
+  margin-top: 30px;
+  display: inline-block;
+  padding: 10px 20px;
+  text-decoration: none;
+  background-color: #007BFF;
+  color: white;
+  border-radius: 6px;
+  text-align: center;
+  font-size: 14px;
+  transition: background-color 0.3s;
+}
+
+.back-btn:hover {
+  background-color: #0056b3;
+}
 
