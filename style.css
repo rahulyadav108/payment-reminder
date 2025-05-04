@@ -87,3 +87,126 @@ a:hover {
   background: white;
   border-radius: 50%;
 }
+/* Reset default styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f2f7fb;
+  color: #333;
+  line-height: 1.6;
+  padding: 0;
+}
+
+/* Header */
+.dashboard-header {
+  background-color: #007bff;
+  color: white;
+  padding: 15px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.dashboard-header h1 {
+  font-size: 24px;
+}
+
+.header-icons .icon {
+  margin-left: 15px;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* Main Container */
+.dashboard-container {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 0 20px;
+}
+
+/* Section Titles */
+.dashboard-container h2 {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: #007bff;
+}
+
+/* Summary Section */
+.summary {
+  background-color: #e6f0ff;
+  padding: 15px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+}
+
+/* Add Debtor Section */
+.add-debtor-section {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+}
+
+.add-debtor-section form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 12px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.add-debtor-section form button {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.add-debtor-section form button:hover {
+  background-color: #0056b3;
+}
+
+.notice {
+  margin-top: 10px;
+  font-size: 14px;
+  color: #ff6600;
+}
+
+/* Message History */
+.message-history {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+}
+
+.message-history ul {
+  list-style: none;
+}
+
+.message-history li {
+  background-color: #f1f1f1;
+  margin-bottom: 8px;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+/* Plan Info */
+.plan-info {
+  background-color: #fff8e6;
+  padding: 15px;
+  border-left: 5px solid #ffc107;
+  border-radius: 8px;
+  margin-bottom: 25px;
+}
