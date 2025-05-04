@@ -3,17 +3,64 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Notifications</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Notifications | Hisab Kitab</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h2>Notifications</h2>
-  <ul>
-    <li>🔔 New feature launched! Try Vendor Hisab section.</li>
-    <li>📢 Reminder: Upgrade to premium for unlimited messages.</li>
-    <li>💬 You have reached your free message limit.</li>
-  </ul>
-  <br>
-  <a href="dashboard.html" class="back-link">← Back to Dashboard</a>
+  <div class="container">
+    <h2>Notifications</h2>
+    <ul id="notificationList" class="notification-list">
+      <li>Loading your notifications...</li>
+    </ul>
+    <button onclick="window.location.href='dashboard.html'" class="back-btn">← Back to Dashboard</button>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+  <script>
+    const firebaseConfig = {
+      apiKey: "AIzaSyD4rUpC-Y7m1hGwKydLjTN4hnH4PUejF-0",
+      authDomain: "paymentloo.firebaseapp.com",
+      databaseURL: "https://paymentloo-default-rtdb.firebaseio.com",
+      projectId: "paymentloo",
+      storageBucket: "paymentloo.appspot.com",
+      messagingSenderId: "678382986235",
+      appId: "1:678382986235:web:14d671959c28ec800a215e"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.database();
+
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        alert("Please log in first.");
+        window.location.href = "login.html";
+        return;
+      }
+
+      const uid = user.uid;
+      const notifRef = db.ref(`notifications/${uid}`);
+
+      notifRef.on("value", snapshot => {
+        const list = document.getElementById("notificationList");
+        list.innerHTML = "";
+
+        if (!snapshot.exists()) {
+          list.innerHTML = "<li>No notifications yet.</li>";
+          return;
+        }
+
+        snapshot.forEach(child => {
+          const notif = child.val();
+          const li = document.createElement("li");
+          li.textContent = notif.message;
+          list.appendChild(li);
+        });
+      });
+    });
+  </script>
 </body>
 </html>
