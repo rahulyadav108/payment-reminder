@@ -3,24 +3,105 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Add Debtor</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Add Debtor | Hisab Kitab</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <h2>Add Debtor</h2>
-  <form id="addDebtorForm">
-    <input type="text" placeholder="Debtor Name" required><br>
-    <input type="tel" placeholder="Phone Number" required><br>
-    <input type="date" placeholder="Due Date" required><br>
-    <select>
-      <option>Select Message</option>
-      <option>Payment Reminder</option>
-      <option>Custom Message</option>
-    </select><br>
-    <textarea placeholder="Custom message (if applicable)"></textarea><br>
-    <button type="submit">Add Debtor</button>
-  </form>
-  <br>
-  <a href="dashboard.html" class="back-link">← Back to Dashboard</a>
+  <div class="container">
+    <h2>Add Debtor</h2>
+    <form id="debtorForm">
+      <input type="text" id="name" placeholder="Customer/Vendor Name" required />
+      <input type="tel" id="phone" placeholder="Phone Number" required />
+      <input type="number" id="purchaseAmount" placeholder="Total Purchase Amount" required />
+      <input type="number" id="dueAmount" placeholder="Total Due Amount" required />
+      <input type="date" id="dueDate" placeholder="Due Date" required />
+      <select id="message">
+        <option value="reminder1">Reminder: Please pay your due.</option>
+        <option value="reminder2">Your payment is still pending.</option>
+        <option value="reminder3">Final reminder for payment.</option>
+        <option value="custom">Custom Message</option>
+      </select>
+      <textarea id="customMessage" placeholder="Enter custom message" style="display:none;"></textarea>
+      <button type="submit">Add Debtor</button>
+    </form>
+    <button onclick="window.location.href='dashboard.html'" class="back-btn">← Back to Dashboard</button>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+  <script>
+    // Your Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyD4rUpC-Y7m1hGwKydLjTN4hnH4PUejF-0",
+      authDomain: "paymentloo.firebaseapp.com",
+      databaseURL: "https://paymentloo-default-rtdb.firebaseio.com",
+      projectId: "paymentloo",
+      storageBucket: "paymentloo.appspot.com",
+      messagingSenderId: "678382986235",
+      appId: "1:678382986235:web:14d671959c28ec800a215e",
+      measurementId: "G-33XCH79XP2"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.database();
+
+    const messageDropdown = document.getElementById("message");
+    const customMessageBox = document.getElementById("customMessage");
+
+    messageDropdown.addEventListener("change", () => {
+      customMessageBox.style.display = messageDropdown.value === "custom" ? "block" : "none";
+    });
+
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        alert("Please log in first.");
+        window.location.href = "login.html";
+        return;
+      }
+
+      // Check if user has custom plan
+      db.ref(`users/${user.uid}`).once("value").then(snapshot => {
+        const data = snapshot.val();
+        const hasCustomPlan = data?.customPlan === true;
+
+        if (!hasCustomPlan) {
+          const customOption = document.querySelector("#message option[value='custom']");
+          if (customOption) customOption.style.display = "none";
+        }
+      });
+
+      document.getElementById("debtorForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById("name").value;
+        const phone = document.getElementById("phone").value;
+        const purchaseAmount = document.getElementById("purchaseAmount").value;
+        const dueAmount = document.getElementById("dueAmount").value;
+        const dueDate = document.getElementById("dueDate").value;
+        const message = messageDropdown.value;
+        const customMessage = document.getElementById("customMessage").value;
+
+        const debtorData = {
+          name,
+          phone,
+          purchaseAmount,
+          dueAmount,
+          dueDate,
+          message: message === "custom" ? customMessage : message,
+          timestamp: Date.now(),
+          firstMessageSent: true
+        };
+
+        db.ref(`debtors/${user.uid}`).push(debtorData).then(() => {
+          alert("Debtor added successfully!");
+          document.getElementById("debtorForm").reset();
+          customMessageBox.style.display = "none";
+        });
+      });
+    });
+  </script>
 </body>
 </html>
