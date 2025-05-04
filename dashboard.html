@@ -1,112 +1,38 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Hisab Kitab Dashboard</title>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Roboto', sans-serif;
-      background: #f4f6f9;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background: #1976d2;
-      color: white;
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    header h1 {
-      margin: 0;
-      font-size: 22px;
-    }
-    .dashboard {
-      padding: 20px;
-    }
-    .card {
-      background: white;
-      padding: 15px;
-      margin-bottom: 15px;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    .card h2 {
-      margin-top: 0;
-    }
-    .metrics {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-    .metric {
-      flex: 1;
-      min-width: 150px;
-      background: #e3f2fd;
-      padding: 15px;
-      border-radius: 8px;
-      text-align: center;
-    }
-    .metric h3 {
-      margin: 0;
-      font-size: 24px;
-    }
-    ul {
-      padding: 0;
-      list-style: none;
-    }
-    ul li {
-      background: #fafafa;
-      padding: 10px;
-      border-bottom: 1px solid #ddd;
-    }
-    .nav-icons {
-      display: flex;
-      gap: 15px;
-    }
-    .nav-icons a {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-    }
-  </style>
+  <title>Hisab Kitab Dashboard</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 </head>
 <body>
-  <header>
-    <h1>Hisab Kitab</h1>
-    <div class="nav-icons">
-      <a href="profile.html">Profile</a>
-      <a href="notifications.html">Notifications</a>
-      <a href="add_debtor.html">Add Debtor</a>
-      <a href="vendor-hisab.html">Hisab Rakho</a>
-    </div>
-  </header>
+  <div class="dashboard-container">
+    <header>
+      <h2>📊 Hisab Kitab Dashboard</h2>
+      <nav>
+        <a href="profile.html">👤</a>
+        <a href="notifications.html">🔔</a>
+        <a href="subscription.html">💳</a>
+      </nav>
+    </header>
 
-  <div class="dashboard">
-    <div class="metrics">
-      <div class="metric">
-        <p>Total Customers</p>
-        <h3 id="totalCustomers">0</h3>
-      </div>
-      <div class="metric">
-        <p>Messages Sent</p>
-        <h3 id="totalMessages">0</h3>
-      </div>
-    </div>
+    <main>
+      <section class="overview">
+        <h3>📌 Overview</h3>
+        <p><strong>Total Customers Added:</strong> <span id="totalCustomers">0</span></p>
+        <p><strong>Messages Sent:</strong> <span id="totalMessages">0</span></p>
+      </section>
 
-    <div class="card">
-      <h2>Latest Messages</h2>
-      <ul id="messageList"></ul>
-    </div>
+      <section class="links">
+        <a href="add-debtor.html" class="nav-card">➕ Add Debtor</a>
+        <a href="vendor-hisab.html" class="nav-card">📒 Vendor Hisab</a>
+      </section>
+    </main>
   </div>
-
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
 
   <script>
     const firebaseConfig = {
@@ -116,29 +42,35 @@
       projectId: "paymentloo",
       storageBucket: "paymentloo.appspot.com",
       messagingSenderId: "678382986235",
-      appId: "1:678382986235:web:14d671959c28ec800a215e",
-      measurementId: "G-33XCH79XP2"
+      appId: "1:678382986235:web:14d671959c28ec800a215e"
     };
+
     firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+    const db = firebase.database();
 
-    const totalCustomersEl = document.getElementById('totalCustomers');
-    const totalMessagesEl = document.getElementById('totalMessages');
-    const messageListEl = document.getElementById('messageList');
+    function updateStats() {
+      const user = firebase.auth().currentUser;
+      if (!user) return;
 
-    db.collection('customers').onSnapshot(snapshot => {
-      totalCustomersEl.textContent = snapshot.size;
-    });
+      db.ref(`users/${user.uid}/customers`).once('value', snapshot => {
+        let total = 0, messages = 0;
+        snapshot.forEach(child => {
+          total++;
+          const data = child.val();
+          if (data.messageSent) messages++;
+        });
 
-    db.collection('messages').orderBy('timestamp', 'desc').limit(5).onSnapshot(snapshot => {
-      totalMessagesEl.textContent = snapshot.size;
-      messageListEl.innerHTML = '';
-      snapshot.forEach(doc => {
-        const data = doc.data();
-        const li = document.createElement('li');
-        li.textContent = `${data.name} - "${data.message}"`;
-        messageListEl.appendChild(li);
+        document.getElementById('totalCustomers').innerText = total;
+        document.getElementById('totalMessages').innerText = messages;
       });
+    }
+
+    firebase.auth().onAuthStateChanged(user => {
+      if (user) {
+        updateStats();
+      } else {
+        window.location.href = 'login.html';
+      }
     });
   </script>
 </body>
