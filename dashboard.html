@@ -1,76 +1,79 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
-  <title>Hisab Kitab Dashboard</title>
+  <title>Dashboard - Hisab Kitab</title>
   <link rel="stylesheet" href="style.css">
-  <!-- Firebase -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js"></script>
 </head>
 <body>
   <div class="dashboard-container">
-    <header>
-      <h2>📊 Hisab Kitab Dashboard</h2>
-      <nav>
-        <a href="profile.html">👤</a>
-        <a href="notifications.html">🔔</a>
-        <a href="subscription.html">💳</a>
-      </nav>
+    <header class="dashboard-header">
+      <h1>📊 Hisab Kitab Dashboard</h1>
+      <div class="nav-icons">
+        <a href="profile.html" title="Profile">👤</a>
+        <a href="notifications.html" title="Notifications">🔔</a>
+        <a href="subscription.html" title="Subscription">💳</a>
+      </div>
     </header>
 
-    <main>
-      <section class="overview">
-        <h3>📌 Overview</h3>
-        <p><strong>Total Customers Added:</strong> <span id="totalCustomers">0</span></p>
-        <p><strong>Messages Sent:</strong> <span id="totalMessages">0</span></p>
-      </section>
+    <section class="overview-section">
+      <h2>📋 Overview</h2>
+      <div class="stat-cards">
+        <div class="stat-card">
+          <h3>Total Customers Added</h3>
+          <p id="totalCustomers">0</p>
+        </div>
+        <div class="stat-card">
+          <h3>Messages Sent</h3>
+          <p id="messagesSent">0</p>
+        </div>
+      </div>
+    </section>
 
-      <section class="links">
-        <a href="add-debtor.html" class="nav-card">➕ Add Debtor</a>
-        <a href="vendor-hisab.html" class="nav-card">📒 Vendor Hisab</a>
-      </section>
-    </main>
+    <section class="actions-section">
+      <h2>➕ Quick Actions</h2>
+      <div class="action-links">
+        <a href="add-debtor.html" class="action-btn">➕ Add Debtor</a>
+        <a href="vendor-hisab.html" class="action-btn">📁 Vendor Hisab</a>
+      </div>
+    </section>
   </div>
 
   <script>
+    // Firebase config
     const firebaseConfig = {
-      apiKey: "AIzaSyD4rUpC-Y7m1hGwKydLjTN4hnH4PUejF-0",
-      authDomain: "paymentloo.firebaseapp.com",
-      databaseURL: "https://paymentloo-default-rtdb.firebaseio.com",
-      projectId: "paymentloo",
-      storageBucket: "paymentloo.appspot.com",
-      messagingSenderId: "678382986235",
-      appId: "1:678382986235:web:14d671959c28ec800a215e"
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_PROJECT_ID.appspot.com",
+      messagingSenderId: "YOUR_SENDER_ID",
+      appId: "YOUR_APP_ID"
     };
 
     firebase.initializeApp(firebaseConfig);
-    const db = firebase.database();
+    const auth = firebase.auth();
+    const db = firebase.firestore();
 
-    function updateStats() {
-      const user = firebase.auth().currentUser;
-      if (!user) return;
-
-      db.ref(`users/${user.uid}/customers`).once('value', snapshot => {
-        let total = 0, messages = 0;
-        snapshot.forEach(child => {
-          total++;
-          const data = child.val();
-          if (data.messageSent) messages++;
-        });
-
-        document.getElementById('totalCustomers').innerText = total;
-        document.getElementById('totalMessages').innerText = messages;
-      });
-    }
-
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        updateStats();
-      } else {
-        window.location.href = 'login.html';
+    auth.onAuthStateChanged(async (user) => {
+      if (!user) {
+        window.location.href = "login.html";
+        return;
       }
+
+      const uid = user.uid;
+      const snapshot = await db.collection("customers").where("userId", "==", uid).get();
+      document.getElementById("totalCustomers").innerText = snapshot.size;
+
+      let totalMessages = 0;
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        totalMessages += data.messagesSent || 0;
+      });
+
+      document.getElementById("messagesSent").innerText = totalMessages;
     });
   </script>
 </body>
