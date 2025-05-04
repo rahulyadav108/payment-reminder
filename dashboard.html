@@ -3,83 +3,53 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hisab Kitab | Dashboard</title>
+  <title>Hisab Kitab - Dashboard</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
-  
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
-  
-  <script>
-    // Initialize Firebase
-    const firebaseConfig = {
-      apiKey: "AIzaSyD4rUpC-Y7m1hGwKydLjTN4hnH4PUejF-0",
-      authDomain: "paymentloo.firebaseapp.com",
-      databaseURL: "https://paymentloo-default-rtdb.firebaseio.com",
-      projectId: "paymentloo",
-      storageBucket: "paymentloo.firebasestorage.app",
-      messagingSenderId: "678382986235",
-      appId: "1:678382986235:web:14d671959c28ec800a215e",
-      measurementId: "G-33XCH79XP2"
-    };
-    
-    const app = firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
-
-    // Fetch total customers in real-time
-    function fetchCustomerCount() {
-      db.collection("customers").onSnapshot(snapshot => {
-        const customerCount = snapshot.size;
-        document.getElementById("customer-count").innerText = customerCount;
-      });
-    }
-
-    window.onload = fetchCustomerCount;
-  </script>
+  <script src="https://kit.fontawesome.com/a2e0e6ad59.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  <div class="dashboard">
-    <header class="dashboard-header">
-      <h1>Hisab Kitab</h1>
-      <div class="header-right">
-        <a href="notifications.html" class="notification-icon">
-          <i class="fas fa-bell"></i>
-          <span class="notif-count">2</span>
-        </a>
-        <a href="profile.html" class="profile-icon">
-          <i class="fas fa-user-circle"></i>
-        </a>
+
+  <header class="header">
+    <h1>Hisab Kitab Dashboard</h1>
+  </header>
+
+  <main class="dashboard-container">
+
+    <section class="summary-cards">
+      <div class="card">
+        <h3>Total Customers</h3>
+        <p id="totalCustomers">14</p> <!-- Dummy -->
       </div>
-    </header>
+      <div class="card">
+        <h3>Messages Sent</h3>
+        <p id="messagesSent">8</p> <!-- Dummy -->
+      </div>
+    </section>
 
-    <main class="dashboard-main">
-      <section class="home-overview">
-        <h2>Dashboard Overview</h2>
-        <div class="cards">
-          <div class="card">Total Customers Added: <strong id="customer-count">Loading...</strong></div>
-          <div class="card">Messages Sent: <strong>36</strong></div>
-        </div>
-      </section>
+    <section class="icon-navigation">
+      <div class="icon-item" onclick="location.href='profile.html'">
+        <i class="fas fa-user-circle"></i>
+        <span>Profile</span>
+      </div>
+      <div class="icon-item" onclick="location.href='notifications.html'">
+        <i class="fas fa-bell"></i>
+        <span>Notifications</span>
+      </div>
+      <div class="icon-item" onclick="location.href='debtors.html'">
+        <i class="fas fa-user-plus"></i>
+        <span>Add Debtor</span>
+      </div>
+      <div class="icon-item" onclick="location.href='customers.html'">
+        <i class="fas fa-clipboard-list"></i>
+        <span>Vendor Hisab</span>
+      </div>
+      <div class="icon-item" onclick="location.href='plan.html'">
+        <i class="fas fa-crown"></i>
+        <span>Plans</span>
+      </div>
+    </section>
 
-      <section class="message-history">
-        <h2>Message History</h2>
-        <ul class="history-list">
-          <li>Ravi Kumar - ₹500 Due - Message Sent: Reminder</li>
-          <li>Sunita Devi - ₹200 Due - Message Sent: Thank You</li>
-          <li>Amit Verma - ₹300 Due - Message Sent: Custom</li>
-        </ul>
-      </section>
+  </main>
 
-      <section class="navigation-links">
-        <h2>Manage</h2>
-        <div class="nav-buttons">
-          <a href="customer_vendor.html" class="btn">Customer/Vendor Hisab</a>
-          <a href="add_debtor.html" class="btn">Add Debtor</a>
-          <a href="subscription.html" class="btn">Subscription Plans</a>
-        </div>
-      </section>
-    </main>
-  </div>
 </body>
 </html>
