@@ -3,105 +3,78 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Register - Hisab Kitab</title>
+  <title>Hisab Kitab - Register</title>
   <link rel="stylesheet" href="style.css" />
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
 </head>
 <body>
   <div class="container">
-    <h2>Register</h2>
-    <form id="registerForm">
-      <input type="text" id="fullName" placeholder="Full Name" required />
-      <input type="text" id="phone" placeholder="Phone Number" required />
-      <input type="email" id="email" placeholder="Email" required />
-      <input type="password" id="password" placeholder="Password" required />
-      <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
+    <h2>Create Your Hisab Kitab Account</h2>
+    <form id="register-form">
+      <input type="text" id="register-name" placeholder="Full Name" required />
+      <input type="tel" id="register-phone" placeholder="Phone Number" required />
+      <input type="email" id="register-email" placeholder="Email" required />
+      <input type="password" id="register-password" placeholder="Password" required />
+      <input type="password" id="register-confirm-password" placeholder="Confirm Password" required />
       <button type="submit">Register</button>
     </form>
-    <button id="googleRegister()" class="googleRegister">
+
+    <div class="or">or</div>
+
+    <button id="google-btn" class="google-btn">
       <img src="https://img.icons8.com/color/16/000000/google-logo.png" alt="Google Icon" />
       Continue with Google
     </button>
+
     <p>Already have an account? <a href="login.html">Login here</a></p>
   </div>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
-
   <script>
-   // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "AIzaSyD4rUpC-Y7m1hGwKydLjTN4hnH4PUejF-0",
-  authDomain: "paymentloo.firebaseapp.com",
-  databaseURL: "https://paymentloo-default-rtdb.firebaseio.com",
-  projectId: "paymentloo",
-  storageBucket: "paymentloo.firebasestorage.app",
-  messagingSenderId: "678382986235",
-  appId: "1:678382986235:web:14d671959c28ec800a215e",
-  measurementId: "G-33XCH79XP2"
-};
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyD4rUpC-Y7m1hGwKydLjTN4hnH4PUejF-0",
+      authDomain: "paymentloo.firebaseapp.com",
+      databaseURL: "https://paymentloo-default-rtdb.firebaseio.com",
+      projectId: "paymentloo",
+      storageBucket: "paymentloo.firebasestorage.app",
+      messagingSenderId: "678382986235",
+      appId: "1:678382986235:web:14d671959c28ec800a215e",
+      measurementId: "G-33XCH79XP2"
+    };
 
+    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
-    const auth = firebase.auth();
-    const db = firebase.firestore();
 
-    const registerForm = document.getElementById('registerForm');
-    registerForm.addEventListener('submit', async (e) => {
+    // Register with email and password
+    document.getElementById("register-form").addEventListener("submit", function (e) {
       e.preventDefault();
-
-      const fullName = document.getElementById('fullName').value;
-      const phone = document.getElementById('phone').value;
-      const email = document.getElementById('email').value;
-      const password = document.getElementById('password').value;
-      const confirmPassword = document.getElementById('confirmPassword').value;
+      const email = document.getElementById("register-email").value;
+      const password = document.getElementById("register-password").value;
+      const confirmPassword = document.getElementById("register-confirm-password").value;
 
       if (password !== confirmPassword) {
         alert("Passwords do not match!");
         return;
       }
 
-      try {
-        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
-        const user = userCredential.user;
-
-        await db.collection("users").doc(user.uid).set({
-          name: fullName,
-          phone: phone,
-          email: email,
-          createdAt: firebase.firestore.FieldValue.serverTimestamp()
-        });
-
-        alert("Registered successfully!");
-        window.location.href = "dashboard.html";
-      } catch (error) {
-        alert("Registration Error: " + error.message);
-      }
-    });
-
-    function googleRegister() {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      auth.signInWithPopup(provider)
-        .then(async (result) => {
-          const user = result.user;
-
-          const userDoc = await db.collection("users").doc(user.uid).get();
-          if (!userDoc.exists) {
-            await db.collection("users").doc(user.uid).set({
-              name: user.displayName || "",
-              email: user.email,
-              phone: user.phoneNumber || "",
-              createdAt: firebase.firestore.FieldValue.serverTimestamp()
-            });
-          }
-
-          alert("Logged in with Google!");
+      firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then(() => {
           window.location.href = "dashboard.html";
         })
-        .catch((error) => {
-          alert("Google Sign-In Error: " + error.message);
-        });
-    }
+        .catch(error => alert(error.message));
+    });
+
+    // Google Sign-Up
+    document.getElementById("google-btn").addEventListener("click", function () {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      firebase.auth().signInWithPopup(provider)
+        .then(() => {
+          window.location.href = "dashboard.html";
+        })
+        .catch(error => alert(error.message));
+    });
   </script>
 </body>
 </html>
