@@ -42,19 +42,34 @@
 
     <button class="back-btn" onclick="window.location.href='dashboard.html'">⬅ Back to Dashboard</button>
   </div>
-
   <script>
-    // Simulate user plan from localStorage (replace with Firebase later)
-    document.addEventListener("DOMContentLoaded", function () {
-      const plan = localStorage.getItem("hisabPlan") || "Free";
-      document.getElementById("activePlan").innerText = plan;
-    });
+  auth.onAuthStateChanged(user => {
+    if (user) {
+      const uid = user.uid;
+      const userDocRef = db.collection("users").doc(uid);
 
-    function activatePlan(planName) {
-      localStorage.setItem("hisabPlan", planName);
-      alert(`You have successfully activated the "${planName}" plan.`);
-      document.getElementById("activePlan").innerText = planName;
+      userDocRef.get().then(doc => {
+        if (doc.exists) {
+          const currentPlan = doc.data().subscription || "Free";
+          document.getElementById("activePlan").innerText = currentPlan;
+        } else {
+          userDocRef.set({ subscription: "Free" });
+          document.getElementById("activePlan").innerText = "Free";
+        }
+      });
+
+      window.activatePlan = function (planName) {
+        userDocRef.update({ subscription: planName }).then(() => {
+          alert(`You have successfully activated the "${planName}" plan.`);
+          document.getElementById("activePlan").innerText = planName;
+        });
+      };
+    } else {
+      alert("Please login first.");
+      window.location.href = "login.html";
     }
-  </script>
+  });
+</script>
+
 </body>
 </html>
