@@ -1,44 +1,26 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Add Debtor - Hisab Kitab</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Debtor</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <h2>Add Debtor</h2>
-  <form class="form">
-    <label>Name</label>
-    <input type="text" placeholder="Debtor Name" required>
-
-    <label>Phone Number</label>
-    <input type="tel" placeholder="Phone Number" required>
-
-    <label>Due Date</label>
-    <input type="date" required>
-
-    <label>Message Type</label>
-    <select required>
-      <option value="">Select a Message</option>
-      <option value="reminder">Payment Reminder</option>
-      <option value="thanks">Thank You</option>
-      <option value="custom">Custom</option>
-    </select>
-
-    <div class="custom-message" style="display: none;">
-      <label>Custom Message</label>
-      <textarea placeholder="Enter your custom message"></textarea>
-    </div>
-
+  <form id="addDebtorForm">
+    <input type="text" placeholder="Debtor Name" required><br>
+    <input type="tel" placeholder="Phone Number" required><br>
+    <input type="date" placeholder="Due Date" required><br>
+    <select>
+      <option>Select Message</option>
+      <option>Payment Reminder</option>
+      <option>Custom Message</option>
+    </select><br>
+    <textarea placeholder="Custom message (if applicable)"></textarea><br>
     <button type="submit">Add Debtor</button>
   </form>
+  <br>
+  <a href="dashboard.html" class="back-link">← Back to Dashboard</a>
 </body>
-
-<script>
-  document.querySelector('select').addEventListener('change', function () {
-    const customSection = document.querySelector('.custom-message');
-    customSection.style.display = this.value === 'custom' ? 'block' : 'none';
-  });
-</script>
 </html>
-
