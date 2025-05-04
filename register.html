@@ -1,34 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hisab Kitab - Register</title>
-  <link rel="stylesheet" href="style.css" />
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <meta charset="UTF-8">
+  <title>Register - Hisab Kitab</title>
+  <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.10.0/firebase-firestore.js"></script>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div class="container">
-    <h2>Create Your Hisab Kitab Account</h2>
-    <form id="register-form">
-      <input type="text" id="register-name" placeholder="Full Name" required />
-      <input type="tel" id="register-phone" placeholder="Phone Number" required />
-      <input type="email" id="register-email" placeholder="Email" required />
-      <input type="password" id="register-password" placeholder="Password" required />
-      <input type="password" id="register-confirm-password" placeholder="Confirm Password" required />
+    <h2>Create Account - Hisab Kitab</h2>
+    <form id="registerForm">
+      <input type="text" id="fullName" placeholder="Full Name" required />
+      <input type="tel" id="phoneNumber" placeholder="Phone Number" required />
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="password" placeholder="Password" required />
+      <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
       <button type="submit">Register</button>
     </form>
 
-    <div class="or">or</div>
-
-    <button id="google-btn" class="google-btn">
-      <img src="https://img.icons8.com/color/16/000000/google-logo.png" alt="Google Icon" />
+    <button class="google-btn" id="googleSignUp">
+      <img src="https://img.icons8.com/color/16/000000/google-logo.png" />
       Continue with Google
     </button>
 
-    <p>Already have an account? <a href="login.html">Login here</a></p>
+    <p>Already have an account? <a href="login.html">Login</a></p>
   </div>
 
   <script>
@@ -44,36 +41,63 @@
       measurementId: "G-33XCH79XP2"
     };
 
-    // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.firestore();
 
-    // Register with email and password
-    document.getElementById("register-form").addEventListener("submit", function (e) {
+    const registerForm = document.getElementById('registerForm');
+
+    registerForm.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const email = document.getElementById("register-email").value;
-      const password = document.getElementById("register-password").value;
-      const confirmPassword = document.getElementById("register-confirm-password").value;
+
+      const fullName = document.getElementById('fullName').value.trim();
+      const phone = document.getElementById('phoneNumber').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
 
       if (password !== confirmPassword) {
         alert("Passwords do not match!");
         return;
       }
 
-      firebase.auth().createUserWithEmailAndPassword(email, password)
-        .then(() => {
-          window.location.href = "dashboard.html";
-        })
-        .catch(error => alert(error.message));
+      try {
+        const userCred = await auth.createUserWithEmailAndPassword(email, password);
+        const uid = userCred.user.uid;
+
+        await db.collection("users").doc(uid).set({
+          name: fullName,
+          phone: phone,
+          email: email,
+          subscription: "Free"
+        });
+
+        window.location.href = "dashboard.html";
+      } catch (err) {
+        alert(err.message);
+      }
     });
 
-    // Google Sign-Up
-    document.getElementById("google-btn").addEventListener("click", function () {
+    document.getElementById("googleSignUp").addEventListener("click", async () => {
       const provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().signInWithPopup(provider)
-        .then(() => {
-          window.location.href = "dashboard.html";
-        })
-        .catch(error => alert(error.message));
+      try {
+        const result = await auth.signInWithPopup(provider);
+        const user = result.user;
+
+        const doc = await db.collection("users").doc(user.uid).get();
+        if (!doc.exists) {
+          await db.collection("users").doc(user.uid).set({
+            name: user.displayName || "No Name",
+            email: user.email,
+            phone: user.phoneNumber || "",
+            subscription: "Free"
+          });
+        }
+
+        window.location.href = "dashboard.html";
+      } catch (error) {
+        alert(error.message);
+      }
     });
   </script>
 </body>
