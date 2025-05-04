@@ -77,11 +77,10 @@
         alert(err.message);
       }
     });
-
-    document.getElementById("googleSignUp").addEventListener("click", async () => {
+// Google Sign-Up
+    document.getElementById("google-btn").addEventListener("click", function () {
       const provider = new firebase.auth.GoogleAuthProvider();
-      try {
-        const result = await auth.signInWithPopup(provider);
+      firebase.auth().signInWithPopup(provider)
         const user = result.user;
 
         const doc = await db.collection("users").doc(user.uid).get();
