@@ -3,19 +3,86 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Vendor Hisab</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Vendor Hisab | Hisab Kitab</title>
+  <link rel="stylesheet" href="style.css"/>
 </head>
 <body>
-  <h2>Customer/Vendor Hisab</h2>
-  <form id="vendorForm">
-    <input type="text" placeholder="Customer/Vendor Name" required><br>
-    <input type="tel" placeholder="Phone Number" required><br>
-    <input type="number" placeholder="Total Purchase Amount" required><br>
-    <input type="number" placeholder="Total Due Amount" required><br>
-    <button type="submit">Add Hisab</button>
-  </form>
-  <br>
-  <a href="dashboard.html" class="back-link">← Back to Dashboard</a>
+  <div class="container">
+    <h2>Add Customer/Vendor Hisab</h2>
+    <form id="vendorForm">
+      <input type="text" id="vendorName" placeholder="Customer/Vendor Name" required />
+      <input type="tel" id="vendorPhone" placeholder="Phone Number" required />
+      <input type="number" id="purchase" placeholder="Total Purchase Amount" required />
+      <input type="number" id="due" placeholder="Total Due Amount" required />
+      <button type="submit">Add Entry</button>
+    </form>
+    <button onclick="window.location.href='dashboard.html'" class="back-btn">← Back to Dashboard</button>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+  <script>
+    // Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyD4rUpC-Y7m1hGwKydLjTN4hnH4PUejF-0",
+      authDomain: "paymentloo.firebaseapp.com",
+      databaseURL: "https://paymentloo-default-rtdb.firebaseio.com",
+      projectId: "paymentloo",
+      storageBucket: "paymentloo.appspot.com",
+      messagingSenderId: "678382986235",
+      appId: "1:678382986235:web:14d671959c28ec800a215e"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const auth = firebase.auth();
+    const db = firebase.database();
+
+    auth.onAuthStateChanged(user => {
+      if (!user) {
+        alert("Please login first.");
+        window.location.href = "login.html";
+        return;
+      }
+
+      document.getElementById("vendorForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const name = document.getElementById("vendorName").value;
+        const phone = document.getElementById("vendorPhone").value;
+        const purchase = document.getElementById("purchase").value;
+        const due = document.getElementById("due").value;
+
+        db.ref(`users/${user.uid}`).once('value').then(snapshot => {
+          const data = snapshot.val();
+          const hasSubscription = data?.subscription === true;
+
+          db.ref(`vendors/${user.uid}`).orderByChild("phone").equalTo(phone).once("value", snapshot => {
+            if (snapshot.exists()) {
+              // Already sent 1 free message, require subscription
+              if (!hasSubscription) {
+                alert("You’ve already added this vendor. Subscribe to send more messages.");
+                return;
+              }
+            }
+
+            const vendorData = {
+              name,
+              phone,
+              purchase,
+              due,
+              timestamp: Date.now()
+            };
+
+            db.ref(`vendors/${user.uid}`).push(vendorData).then(() => {
+              alert("Vendor data added successfully!");
+              document.getElementById("vendorForm").reset();
+            });
+          });
+        });
+      });
+    });
+  </script>
 </body>
 </html>
