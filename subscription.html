@@ -2,32 +2,59 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Subscription Plans - Hisab Kitab</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Subscription - Hisab Kitab</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h2>Subscription Plans</h2>
-  <div class="plans">
-    <div class="plan-card">
-      <h3>Free Plan</h3>
-      <p>Add unlimited customers</p>
-      <p>Send 1 message per customer</p>
-      <button disabled>Current Plan</button>
+  <div class="container">
+    <h2>Subscription Plans</h2>
+
+    <div class="current-plan" id="currentPlan">
+      <strong>Current Plan:</strong> <span id="activePlan">Free</span>
     </div>
 
-    <div class="plan-card">
-      <h3>Premium Plan - ₹499/month</h3>
-      <p>Unlimited messages to all customers</p>
-      <button>Upgrade</button>
+    <hr style="margin: 20px 0;">
+
+    <div class="plan-list">
+      <div class="plan-card">
+        <h3>Free Plan</h3>
+        <p>✔ Add unlimited customers<br>
+        ✔ Send 1 message per customer<br>
+        ❌ Custom messages</p>
+        <button class="subscribe-btn" onclick="activatePlan('Free')">Activate Free</button>
+      </div>
+
+      <div class="plan-card">
+        <h3>Pro Plan - ₹499/month</h3>
+        <p>✔ Add unlimited customers<br>
+        ✔ Unlimited messages<br>
+        ✔ Custom messages enabled</p>
+        <button class="subscribe-btn" onclick="activatePlan('Pro')">Subscribe</button>
+      </div>
+
+      <div class="plan-card">
+        <h3>Custom Message Plan - ₹99/month</h3>
+        <p>✔ 25 custom messages/month<br>
+        ✔ Works with any customer</p>
+        <button class="subscribe-btn" onclick="activatePlan('Custom')">Subscribe</button>
+      </div>
     </div>
 
-    <div class="plan-card">
-      <h3>Custom Message Plan</h3>
-      <p>₹49/month - 10 messages</p>
-      <p>₹99/month - 25 messages</p>
-      <button>Buy Custom Plan</button>
-    </div>
+    <button class="back-btn" onclick="window.location.href='dashboard.html'">⬅ Back to Dashboard</button>
   </div>
+
+  <script>
+    // Simulate user plan from localStorage (replace with Firebase later)
+    document.addEventListener("DOMContentLoaded", function () {
+      const plan = localStorage.getItem("hisabPlan") || "Free";
+      document.getElementById("activePlan").innerText = plan;
+    });
+
+    function activatePlan(planName) {
+      localStorage.setItem("hisabPlan", planName);
+      alert(`You have successfully activated the "${planName}" plan.`);
+      document.getElementById("activePlan").innerText = planName;
+    }
+  </script>
 </body>
 </html>
-
