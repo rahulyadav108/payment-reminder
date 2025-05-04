@@ -87,126 +87,177 @@ a:hover {
   background: white;
   border-radius: 50%;
 }
-/* Reset default styles */
+/* Reset and base styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f2f7fb;
+  background-color: #f7f9fc;
   color: #333;
-  line-height: 1.6;
-  padding: 0;
-}
-
-/* Header */
-.dashboard-header {
-  background-color: #007bff;
-  color: white;
-  padding: 15px 25px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.dashboard-header h1 {
-  font-size: 24px;
-}
-
-.header-icons .icon {
-  margin-left: 15px;
-  font-size: 22px;
-  cursor: pointer;
-}
-
-/* Main Container */
-.dashboard-container {
-  max-width: 900px;
-  margin: 30px auto;
-  padding: 0 20px;
-}
-
-/* Section Titles */
-.dashboard-container h2 {
-  font-size: 20px;
-  margin-bottom: 10px;
-  color: #007bff;
-}
-
-/* Summary Section */
-.summary {
-  background-color: #e6f0ff;
-  padding: 15px;
-  border-radius: 8px;
-  margin-bottom: 25px;
-}
-
-/* Add Debtor Section */
-.add-debtor-section {
-  background-color: #fff;
   padding: 20px;
-  border-radius: 8px;
-  margin-bottom: 25px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
 }
 
-.add-debtor-section form input {
+/* Headings */
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #1a73e8;
+}
+
+/* Forms */
+.form {
+  max-width: 500px;
+  margin: 0 auto;
+  background: #fff;
+  padding: 25px 30px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form label {
+  display: block;
+  margin: 15px 0 5px;
+  font-weight: 500;
+}
+
+.form input,
+.form select,
+.form textarea {
   width: 100%;
   padding: 10px;
-  margin-bottom: 12px;
-  border-radius: 5px;
-  border: 1px solid #ccc;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
 }
 
-.add-debtor-section form button {
+.form button {
   width: 100%;
   padding: 12px;
-  background-color: #007bff;
-  color: white;
+  margin-top: 20px;
   border: none;
-  border-radius: 5px;
-  cursor: pointer;
+  background-color: #1a73e8;
+  color: #fff;
   font-size: 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
-.add-debtor-section form button:hover {
-  background-color: #0056b3;
+.form button:hover {
+  background-color: #155ab6;
 }
 
-.notice {
-  margin-top: 10px;
-  font-size: 14px;
-  color: #ff6600;
+textarea {
+  resize: vertical;
+  min-height: 80px;
 }
 
-/* Message History */
-.message-history {
-  background-color: #fff;
+/* Notification List */
+.notifications-list {
+  max-width: 600px;
+  margin: 0 auto;
+  list-style: none;
+  background: #fff;
   padding: 20px;
   border-radius: 8px;
-  margin-bottom: 25px;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
 }
 
-.message-history ul {
-  list-style: none;
+.notifications-list li {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
 }
 
-.message-history li {
-  background-color: #f1f1f1;
-  margin-bottom: 8px;
-  padding: 10px;
-  border-radius: 5px;
-}
-
-/* Plan Info */
-.plan-info {
-  background-color: #fff8e6;
-  padding: 15px;
-  border-left: 5px solid #ffc107;
+/* Profile Box */
+.profile-box {
+  max-width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+  background: #fff;
   border-radius: 8px;
-  margin-bottom: 25px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+}
+
+.profile-box p {
+  margin: 10px 0;
+  font-size: 15px;
+}
+
+/* Plans Section */
+.plans {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.plan-card {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  border: 2px solid #e1e1e1;
+  width: 250px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.plan-card:hover {
+  transform: scale(1.03);
+}
+
+.plan-card h3 {
+  margin-bottom: 10px;
+  color: #1a73e8;
+}
+
+.plan-card p {
+  font-size: 14px;
+  margin: 8px 0;
+}
+
+.plan-card button {
+  background-color: #1a73e8;
+  border: none;
+  padding: 10px;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  width: 100%;
+}
+
+.plan-card button:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Note section */
+.note {
+  max-width: 500px;
+  margin: 15px auto;
+  font-size: 13px;
+  color: #666;
+  text-align: center;
+}
+
+/* Icons on dashboard */
+.icon-bar {
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  background: #ffffff;
+  border-top: 1px solid #ddd;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.icon-bar a {
+  color: #1a73e8;
+  font-size: 18px;
+  text-decoration: none;
 }
