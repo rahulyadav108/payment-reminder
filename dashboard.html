@@ -6,6 +6,35 @@
   <title>Hisab Kitab | Dashboard</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+  
+  <script>
+    // Initialize Firebase
+    const firebaseConfig = {
+      apiKey: "your-api-key",
+      authDomain: "your-auth-domain",
+      projectId: "your-project-id",
+      storageBucket: "your-storage-bucket",
+      messagingSenderId: "your-sender-id",
+      appId: "your-app-id"
+    };
+
+    const app = firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // Fetch total customers in real-time
+    function fetchCustomerCount() {
+      db.collection("customers").onSnapshot(snapshot => {
+        const customerCount = snapshot.size;
+        document.getElementById("customer-count").innerText = customerCount;
+      });
+    }
+
+    window.onload = fetchCustomerCount;
+  </script>
 </head>
 <body>
   <div class="dashboard">
@@ -26,7 +55,7 @@
       <section class="home-overview">
         <h2>Dashboard Overview</h2>
         <div class="cards">
-          <div class="card">Total Customers Added: <strong>18</strong></div>
+          <div class="card">Total Customers Added: <strong id="customer-count">Loading...</strong></div>
           <div class="card">Messages Sent: <strong>36</strong></div>
         </div>
       </section>
