@@ -1,79 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>PaymentLoo Dashboard</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hisab Kitab - Dashboard</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <header class="dashboard-header">
-    <h1>PaymentLoo Dashboard</h1>
-    <nav>
-      <button onclick="logout()">Logout</button>
-    </nav>
+    <h1>📘 Hisab Kitab</h1>
+    <div class="header-icons">
+      <span class="icon">👤</span>
+      <span class="icon">🔔</span>
+    </div>
   </header>
 
-  <section class="dashboard-cards">
-    <div class="card">
-      <h3>Profile</h3>
-      <p>Name: <span id="user-name"></span></p>
-      <p>Email: <span id="user-email"></span></p>
-    </div>
-    <div class="card">
-      <h3>Notifications</h3>
-      <ul id="notification-list">
-        <!-- Admin messages will appear here -->
+  <main class="dashboard-container">
+    <section class="summary">
+      <h2>📊 Summary</h2>
+      <p>Total Customers/Vendors Added: <span id="totalUsers">0</span></p>
+      <p>Total Messages Sent: <span id="totalMessages">0</span></p>
+    </section>
+
+    <section class="add-debtor-section">
+      <h2>➕ Add Customer / Vendor</h2>
+      <form id="debtorForm">
+        <input type="text" id="debtorName" placeholder="Customer/Vendor Name" required />
+        <input type="tel" id="debtorPhone" placeholder="Phone Number" required />
+        <input type="number" id="purchaseAmount" placeholder="Total Purchase Amount" required />
+        <input type="number" id="dueAmount" placeholder="Total Due Amount" required />
+        <button type="submit">Add</button>
+      </form>
+      <p class="notice">🔔 First message to each customer is free. Please purchase a plan to continue messaging after that.</p>
+    </section>
+
+    <section class="message-history">
+      <h2>📨 Message History</h2>
+      <ul id="messageList">
+        <li>No messages yet.</li>
       </ul>
-    </div>
-    <div class="card">
-      <h3>Your Plan</h3>
-      <p id="user-plan">Loading...</p>
-    </div>
-  </section>
+    </section>
 
-  <section class="dashboard-home">
-    <h2>Home Summary</h2>
-    <p>Total Debtors Added: <span id="total-debtors">0</span></p>
-    <div id="message-history">
-      <!-- Message history details -->
-    </div>
-  </section>
-
-  <section class="dashboard-add-debtor">
-    <h2>Add New Debtor</h2>
-    <form id="debtor-form">
-      <input type="text" id="debtor-name" placeholder="Debtor's Name" required>
-      <input type="tel" id="debtor-number" placeholder="Phone Number" required>
-      <input type="date" id="due-date" required>
-      <select id="message-select">
-        <option value="default">Please make the due payment.</option>
-        <option value="custom" id="custom-message-option" disabled>Add your custom message</option>
-      </select>
-      <textarea id="custom-message" placeholder="Enter custom message" style="display:none;"></textarea>
-      <button type="submit">Add Debtor</button>
-    </form>
-  </section>
+    <section class="plan-info">
+      <h2>💼 Plan Details</h2>
+      <p>Free Plan: 1 message per customer</p>
+      <p>Upgrade for unlimited messaging.</p>
+    </section>
+  </main>
 
   <script>
-    // Toggle custom message input
-    document.getElementById("message-select").addEventListener("change", function () {
-      const showCustom = this.value === "custom";
-      document.getElementById("custom-message").style.display = showCustom ? "block" : "none";
+    let totalUsers = 0;
+    let totalMessages = 0;
+    const usersSet = new Set(); // To track if a user already got a free message
+
+    const form = document.getElementById("debtorForm");
+    const userCount = document.getElementById("totalUsers");
+    const messageCount = document.getElementById("totalMessages");
+    const messageList = document.getElementById("messageList");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const name = document.getElementById("debtorName").value;
+      const phone = document.getElementById("debtorPhone").value;
+      const total = document.getElementById("purchaseAmount").value;
+      const due = document.getElementById("dueAmount").value;
+
+      totalUsers++;
+      userCount.textContent = totalUsers;
+
+      let messageText = `Customer ${name} (Ph: ${phone}) purchased ₹${total}, due ₹${due}.`;
+
+      // Only send message if not already sent
+      if (!usersSet.has(phone)) {
+        usersSet.add(phone);
+        totalMessages++;
+        messageCount.textContent = totalMessages;
+
+        const li = document.createElement("li");
+        li.textContent = `Message sent to ${name} (${phone}): ${messageText}`;
+        messageList.appendChild(li);
+      } else {
+        const li = document.createElement("li");
+        li.textContent = `Message already sent once to ${name} (${phone}). Upgrade plan to send more.`;
+        messageList.appendChild(li);
+      }
+
+      form.reset();
     });
-
-    // Basic logout function
-    function logout() {
-      firebase.auth().signOut().then(() => {
-        window.location.href = "login.html";
-      });
-    }
-
-    // Firebase & UI logic will go in app.js
   </script>
-
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-  <script src="app.js"></script>
 </body>
 </html>
