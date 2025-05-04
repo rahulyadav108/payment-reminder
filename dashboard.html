@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hisab Kitab Dashboard</title>
+  <title>Hisab Kitab | Dashboard</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
@@ -12,14 +12,13 @@
     <header class="dashboard-header">
       <h1>Hisab Kitab</h1>
       <div class="header-right">
-        <div class="notification">
+        <a href="notifications.html" class="notification-icon">
           <i class="fas fa-bell"></i>
           <span class="notif-count">2</span>
-        </div>
-        <div class="profile">
+        </a>
+        <a href="profile.html" class="profile-icon">
           <i class="fas fa-user-circle"></i>
-          <span>User Name</span>
-        </div>
+        </a>
       </div>
     </header>
 
@@ -27,63 +26,27 @@
       <section class="home-overview">
         <h2>Dashboard Overview</h2>
         <div class="cards">
-          <div class="card">Total Customers: <strong>15</strong></div>
-          <div class="card">Total Messages Sent: <strong>30</strong></div>
-          <div class="card">Total Outstanding Amount: <strong>₹7,500</strong></div>
+          <div class="card">Total Customers Added: <strong>18</strong></div>
+          <div class="card">Messages Sent: <strong>36</strong></div>
         </div>
       </section>
 
-      <section class="subscription-section">
-        <h2>Subscription Plan</h2>
-        <p>Current Plan: <strong>Free</strong></p>
-        <button class="btn">Upgrade to ₹499/Month</button>
-
-        <div class="custom-plans">
-          <h3>Custom Message Plans:</h3>
-          <ul>
-            <li>₹49/month – 10 custom messages</li>
-            <li>₹99/month – 25 custom messages</li>
-          </ul>
-        </div>
-      </section>
-
-      <section class="customer-vendor-section">
-        <h2>Customer/Vendor Hisab</h2>
-        <form class="form">
-          <input type="text" placeholder="Customer/Vendor Name" required />
-          <input type="tel" placeholder="Phone Number" required />
-          <input type="number" placeholder="Total Purchase Amount" required />
-          <input type="number" placeholder="Total Due Amount" required />
-          <button class="btn">Send Message</button>
-          <small>* First message free, plan needed after that</small>
-        </form>
-      </section>
-
-      <section class="debtors-section">
-        <h2>Add Debtor</h2>
-        <form class="form">
-          <input type="text" placeholder="Debtor Name" required />
-          <input type="tel" placeholder="Phone Number" required />
-          <input type="date" placeholder="Due Date" required />
-          <select>
-            <option>Select Message</option>
-            <option>Payment Reminder</option>
-            <option>Thank You Note</option>
-          </select>
-          <div class="custom-msg">
-            <label>Custom Message (for active plan):</label>
-            <textarea placeholder="Enter your message..."></textarea>
-          </div>
-          <button class="btn">Add Debtor</button>
-        </form>
-      </section>
-
-      <section class="notifications-area">
-        <h2>Notifications</h2>
-        <ul class="notification-list">
-          <li><strong>Admin:</strong> New plan feature launched!</li>
-          <li><strong>Admin:</strong> Maintenance on Sunday 2–4 PM.</li>
+      <section class="message-history">
+        <h2>Message History</h2>
+        <ul class="history-list">
+          <li>Ravi Kumar - ₹500 Due - Message Sent: Reminder</li>
+          <li>Sunita Devi - ₹200 Due - Message Sent: Thank You</li>
+          <li>Amit Verma - ₹300 Due - Message Sent: Custom</li>
         </ul>
+      </section>
+
+      <section class="navigation-links">
+        <h2>Manage</h2>
+        <div class="nav-buttons">
+          <a href="customer_vendor.html" class="btn">Customer/Vendor Hisab</a>
+          <a href="add_debtor.html" class="btn">Add Debtor</a>
+          <a href="subscription.html" class="btn">Subscription Plans</a>
+        </div>
       </section>
     </main>
   </div>
