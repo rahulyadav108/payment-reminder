@@ -1,58 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Register - Hisab Kitab</title>
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <div class="container">
-    <h2>Create Account - Hisab Kitab</h2>
+    <h2>Register</h2>
     <form id="registerForm">
       <input type="text" id="fullName" placeholder="Full Name" required />
-      <input type="tel" id="phoneNumber" placeholder="Phone Number" required />
+      <input type="text" id="phone" placeholder="Phone Number" required />
       <input type="email" id="email" placeholder="Email" required />
       <input type="password" id="password" placeholder="Password" required />
       <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
       <button type="submit">Register</button>
     </form>
-
-    <button class="google-btn" id="googleSignUp">
-      <img src="https://img.icons8.com/color/16/000000/google-logo.png" />
-      Continue with Google
-    </button>
-
-    <p>Already have an account? <a href="login.html">Login</a></p>
+    <button onclick="googleRegister()">Continue with Google</button>
+    <p>Already have an account? <a href="login.html">Login here</a></p>
   </div>
 
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
   <script>
-    // Firebase configuration
     const firebaseConfig = {
-      apiKey: "AIzaSyD4rUpC-Y7m1hGwKydLjTN4hnH4PUejF-0",
-      authDomain: "paymentloo.firebaseapp.com",
-      databaseURL: "https://paymentloo-default-rtdb.firebaseio.com",
-      projectId: "paymentloo",
-      storageBucket: "paymentloo.firebasestorage.app",
-      messagingSenderId: "678382986235",
-      appId: "1:678382986235:web:14d671959c28ec800a215e",
-      measurementId: "G-33XCH79XP2"
+      apiKey: "YOUR_API_KEY",
+      authDomain: "YOUR_AUTH_DOMAIN",
+      projectId: "YOUR_PROJECT_ID",
+      storageBucket: "YOUR_STORAGE_BUCKET",
+      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+      appId: "YOUR_APP_ID"
     };
 
     firebase.initializeApp(firebaseConfig);
     const auth = firebase.auth();
-    const db = firebase.realtimedatabase();
+    const db = firebase.firestore();
 
     const registerForm = document.getElementById('registerForm');
-
     registerForm.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      const fullName = document.getElementById('fullName').value.trim();
-      const phone = document.getElementById('phoneNumber').value.trim();
-      const email = document.getElementById('email').value.trim();
+      const fullName = document.getElementById('fullName').value;
+      const phone = document.getElementById('phone').value;
+      const email = document.getElementById('email').value;
       const password = document.getElementById('password').value;
       const confirmPassword = document.getElementById('confirmPassword').value;
 
@@ -62,42 +56,47 @@
       }
 
       try {
-        const userCred = await auth.createUserWithEmailAndPassword(email, password);
-        const uid = userCred.user.uid;
+        const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+        const user = userCredential.user;
 
-        await db.collection("users").doc(uid).set({
+        await db.collection("users").doc(user.uid).set({
           name: fullName,
           phone: phone,
           email: email,
-          subscription: "Free"
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
         });
 
-        window.location.href = "dashboard.html";
-      } catch (err) {
-        alert(err.message);
-      }
-    });
-// Google Sign-Up
-    document.getElementById("google-btn").addEventListener("click", function () {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      firebase.auth().signInWithPopup(provider)
-        const user = result.user;
-
-        const doc = await db.collection("users").doc(user.uid).get();
-        if (!doc.exists) {
-          await db.collection("users").doc(user.uid).set({
-            name: user.displayName || "No Name",
-            email: user.email,
-            phone: user.phoneNumber || "",
-            subscription: "Free"
-          });
-        }
-
+        alert("Registered successfully!");
         window.location.href = "dashboard.html";
       } catch (error) {
-        alert(error.message);
+        alert("Registration Error: " + error.message);
       }
     });
+
+    function googleRegister() {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      auth.signInWithPopup(provider)
+        .then(async (result) => {
+          const user = result.user;
+
+          // Check if user already exists in Firestore
+          const userDoc = await db.collection("users").doc(user.uid).get();
+          if (!userDoc.exists) {
+            await db.collection("users").doc(user.uid).set({
+              name: user.displayName || "",
+              email: user.email,
+              phone: user.phoneNumber || "",
+              createdAt: firebase.firestore.FieldValue.serverTimestamp()
+            });
+          }
+
+          alert("Logged in with Google!");
+          window.location.href = "dashboard.html";
+        })
+        .catch((error) => {
+          alert("Google Sign-In Error: " + error.message);
+        });
+    }
   </script>
 </body>
 </html>
